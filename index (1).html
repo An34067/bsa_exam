@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BSA Тест - Жизненный цикл IT-систем</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .question-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .question-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .question-text {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .option {
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .option:hover { border-color: #667eea; background: #f8f9ff; }
+        .option.selected { border-color: #667eea; background: #f0f2ff; }
+        .option.correct { border-color: #4CAF50; background: #e8f5e9; }
+        .option.wrong { border-color: #f44336; background: #ffebee; }
+        .check-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .check-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        .explanation {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        .explanation.show { display: block; }
+        .explanation-title { font-weight: bold; color: #667eea; margin-bottom: 10px; }
+        .explanation-text { color: #555; line-height: 1.6; }
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 5px;
+            background: #4CAF50;
+            transition: width 0.3s;
+            z-index: 1000;
+        }
+        .score-display {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            font-weight: bold;
+            z-index: 1000;
+        }
+        .score-display span { color: #667eea; font-size: 1.3em; }
+        table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background: #f0f0f0; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 5px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="score-display">Правильно: <span id="score">0</span> / 58</div>
+    <div class="container">
+        <h1>📚 BSA Тест</h1>
+
+        <!-- Вопрос 1 -->
+        <div class="question-card" data-correct="3">
+            <span class="question-number">Вопрос 1</span>
+            <p class="question-text">Какой этап жизненного цикла разработки IT-системы предшествует фазе проектирования?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q1" value="0"> Тестирование</label>
+                <label class="option"><input type="radio" name="q1" value="1"> Разработка</label>
+                <label class="option"><input type="radio" name="q1" value="2"> Внедрение</label>
+                <label class="option"><input type="radio" name="q1" value="3"> Сбор информации</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(1)">Проверить</button>
+            <div class="explanation" id="exp1">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Фазе проектирования всегда предшествует этап сбора и анализа требований (информации), чтобы понять, что именно нужно разрабатывать.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 2 -->
+        <div class="question-card" data-correct="3">
+            <span class="question-number">Вопрос 2</span>
+            <p class="question-text">На каком этапе жизненного цикла разработки происходит создание программного продукта на основе утвержденных требований?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q2" value="0"> Обследование</label>
+                <label class="option"><input type="radio" name="q2" value="1"> Внедрение</label>
+                <label class="option"><input type="radio" name="q2" value="2"> Тестирование</label>
+                <label class="option"><input type="radio" name="q2" value="3"> Разработка</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(2)">Проверить</button>
+            <div class="explanation" id="exp2">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Создание программного продукта (написание кода) происходит на этапе <strong>разработки</strong>, который следует после сбора требований и проектирования, но до тестирования и внедрения.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 3 -->
+        <div class="question-card" data-correct="0">
+            <span class="question-number">Вопрос 3</span>
+            <p class="question-text">Какой этап включает в себя развертывание разработанной системы в реальной среде и обеспечивает ее стабильной работы?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q3" value="0"> Внедрение</label>
+                <label class="option"><input type="radio" name="q3" value="1"> Тестирование</label>
+                <label class="option"><input type="radio" name="q3" value="2"> Сопровождение</label>
+                <label class="option"><input type="radio" name="q3" value="3"> Разработка</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(3)">Проверить</button>
+            <div class="explanation" id="exp3">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Этап внедрения (deployment) включает развертывание системы в реальной рабочей среде, настройку, обучение пользователей и обеспечение начальной стабильной работы. Сопровождение начинается после успешного внедрения.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 4 -->
+        <div class="question-card" data-correct="3">
+            <span class="question-number">Вопрос 4</span>
+            <p class="question-text">Что представляет собой декомпозиция в контексте управления проектом?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q4" value="0"> Упрощение требований заказа</label>
+                <label class="option"><input type="radio" name="q4" value="1"> Объединение различных элементов</label>
+                <label class="option"><input type="radio" name="q4" value="2"> Исключение этапов из проекта</label>
+                <label class="option"><input type="radio" name="q4" value="3"> Разделение сложной задачи на более простые подзадания</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(4)">Проверить</button>
+            <div class="explanation" id="exp4">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Декомпозиция — это метод управления проектами, при котором сложная задача разбивается на более мелкие, понятные и управляемые части (подзадачи), что упрощает планирование, оценку и контроль выполнения проекта.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 5 -->
+        <div class="question-card" data-correct="0,1,2">
+            <span class="question-number">Вопрос 5 (несколько вариантов)</span>
+            <p class="question-text">Какие характеристики стейкхолдеров помогут оценить их значительность для проекта?</p>
+            <div class="options">
+                <label class="option"><input type="checkbox" name="q5" value="0"> Доступ к ресурсам и экспертизе</label>
+                <label class="option"><input type="checkbox" name="q5" value="1"> Полномочия и ответственность за принятие решения</label>
+                <label class="option"><input type="checkbox" name="q5" value="2"> Их роль и влияние на проект</label>
+            </div>
+            <button class="check-btn" onclick="checkMultipleAnswer(5)">Проверить</button>
+            <div class="explanation" id="exp5">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Для оценки значимости стейкхолдеров в проекте анализируют все три характеристики:<br><br>
+                1. <strong>Доступ к ресурсам и экспертизе</strong> — может ли стейкхолдер предоставить необходимые ресурсы или знания<br>
+                2. <strong>Полномочия и ответственность за принятие решения</strong> — уровень влияния на ключевые решения<br>
+                3. <strong>Их роль и влияние на проект</strong> — как они могут повлиять на успех или неудачу проекта<br><br>
+                Все эти факторы вместе помогают определить приоритеты работы со стейкхолдерами.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 6 -->
+        <div class="question-card" data-correct="1">
+            <span class="question-number">Вопрос 6</span>
+            <p class="question-text">Какая информация является наиболее полной и полезной для включения в каталог стейкхолдеров?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q6" value="0"> ФИО, название компании, должность, участие в предыдущих проектах</label>
+                <label class="option"><input type="radio" name="q6" value="1"> Имя, контакты, роль в системе, уровень полномочий, интересы и зоны ответственности</label>
+                <label class="option"><input type="radio" name="q6" value="2"> ФИО, контактные данные, должность, компания</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(6)">Проверить</button>
+            <div class="explanation" id="exp6">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Наиболее полная информация о стейкхолдере должна включать не только идентификационные данные (имя, контакты), но и характеристики, важные для управления их вовлеченностью:<br><br>
+                - <strong>Роль в системе</strong> — какую функцию выполняет<br>
+                - <strong>Уровень полномочий</strong> — степень влияния на проект<br>
+                - <strong>Интересы и зоны ответственности</strong> — что важно для стейкхолдера и за что он отвечает<br><br>
+                Это позволяет эффективно выстраивать коммуникацию и управлять ожиданиями.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 7 -->
+        <div class="question-card" data-correct="0">
+            <span class="question-number">Вопрос 7</span>
+            <p class="question-text">Какие категории заинтересованных сторон могут быть сгруппированы по ролям в рамках проекта?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q7" value="0"> Внешние и внутренние участники, выполняющие схожие задачи и имеющие аналогичные интересы</label>
+                <label class="option"><input type="radio" name="q7" value="1"> Только те группы, которые имеют прямое отношение к процессу принятия решения</label>
+                <label class="option"><input type="radio" name="q7" value="2"> Все заинтересованные стороны, независимо от их статуса, если они выполняют идентичные функции в проекте</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(7)">Проверить</button>
+            <div class="explanation" id="exp7">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Группировка стейкхолдеров по ролям обычно основывается на:<br><br>
+                - <strong>Выполняемых задачах</strong> (функциональная роль в проекте)<br>
+                - <strong>Схожих интересах</strong> к результатам проекта<br>
+                - <strong>Принадлежности к внутренним/внешним группам</strong><br><br>
+                Это позволяет эффективно управлять коммуникацией и учитывать потребности схожих категорий участников, а не рассматривать каждого стейкхолдера индивидуально.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 8 -->
+        <div class="question-card" data-correct="2">
+            <span class="question-number">Вопрос 8</span>
+            <p class="question-text">Что представляют собой бизнес-требования?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q8" value="0"> Внутренние характеристики системы</label>
+                <label class="option"><input type="radio" name="q8" value="1"> Низкоуровневые цели организации</label>
+                <label class="option"><input type="radio" name="q8" value="2"> Высокоуровневая бизнес-цель организации или заказчиков системы</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(8)">Проверить</button>
+            <div class="explanation" id="exp8">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Бизнес-требования — это высокоуровневые цели, которые организация или заказчики хотят достичь с помощью системы. Они отвечают на вопрос "Зачем нужна система?" и описывают ожидаемую бизнес-ценность, а не технические детали или внутренние характеристики.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 9 -->
+        <div class="question-card" data-correct="1">
+            <span class="question-number">Вопрос 9</span>
+            <p class="question-text">Какие требования описывают ожидаемое поведение системы при определенных условиях?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q9" value="0"> Спецификации внешних интерфейсов</label>
+                <label class="option"><input type="radio" name="q9" value="1"> Функциональные требования</label>
+                <label class="option"><input type="radio" name="q9" value="2"> Требования к качеству и производительности</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(9)">Проверить</button>
+            <div class="explanation" id="exp9">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Функциональные требования определяют, что система должна делать — её поведение, функции и реакции на различные входные данные и условия. Они описывают конкретные действия системы: "Если пользователь нажимает кнопку X, то система выполняет Y".</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 10 -->
+        <div class="question-card" data-correct="3">
+            <span class="question-number">Вопрос 10</span>
+            <p class="question-text">Что из перечисленного является основными этапами управления требованиями?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q10" value="0"> Создание, внедрение, тестирование</label>
+                <label class="option"><input type="radio" name="q10" value="1"> Определение, документирование, проверка</label>
+                <label class="option"><input type="radio" name="q10" value="2"> Планирование, выполнение, контроль, анализ</label>
+                <label class="option"><input type="radio" name="q10" value="3"> Идентификация, анализ, спецификация, контроль</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(10)">Проверить</button>
+            <div class="explanation" id="exp10">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Основные этапы управления требованиями согласно стандартам (например, BABOK):<br><br>
+                1. <strong>Идентификация</strong> — выявление требований от стейкхолдеров<br>
+                2. <strong>Анализ</strong> — уточнение и детализация требований<br>
+                3. <strong>Спецификация</strong> — документирование требований<br>
+                4. <strong>Контроль</strong> — управление изменениями и трассируемостью требований</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 11 -->
+        <div class="question-card" data-correct="3">
+            <span class="question-number">Вопрос 11</span>
+            <p class="question-text">Зачем проводится трассировка требований?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q11" value="0"> Для анализа выполнения требований</label>
+                <label class="option"><input type="radio" name="q11" value="1"> Трассировка не является частью требований</label>
+                <label class="option"><input type="radio" name="q11" value="2"> Для создания новых требований</label>
+                <label class="option"><input type="radio" name="q11" value="3"> Для отслеживания связи между требованиями на разных уровнях</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(11)">Проверить</button>
+            <div class="explanation" id="exp11">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Трассировка требований (requirements traceability) — это процесс отслеживания связей между:<br><br>
+                - Бизнес-требованиями<br>
+                - Функциональными требованиями<br>
+                - Техническими спецификациями<br>
+                - Тест-кейсами<br><br>
+                Это позволяет убедиться, что все высокоуровневые цели реализованы в системе, а также быстро оценить влияние изменений в требованиях на другие элементы проекта.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 12 -->
+        <div class="question-card" data-correct="0">
+            <span class="question-number">Вопрос 12</span>
+            <p class="question-text">Какие атрибуты необходимо учитывать при управлении требованиями для обеспечения их полноты и отслеживаемости?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q12" value="0"> ID, приоритет, источник, статус, версия, сложность, трассируемость, критерии приёмки</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(12)">Проверить</button>
+            <div class="explanation" id="exp12">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text"><strong>Типичные атрибуты требований для полноты и отслеживаемости:</strong><br><br>
+                1. <strong>ID</strong> — уникальный идентификатор требования<br>
+                2. <strong>Приоритет</strong> — важность требования (высокий/средний/низкий)<br>
+                3. <strong>Источник</strong> — кто выдвинул требование (стейкхолдер)<br>
+                4. <strong>Статус</strong> — текущее состояние (новое/утверждённое/реализованное и т.д.)<br>
+                5. <strong>Версия</strong> — номер версии требования<br>
+                6. <strong>Сложность</strong> — оценка трудности реализации<br>
+                7. <strong>Трассируемость</strong> — связи с другими требованиями, тестами, задачами<br>
+                8. <strong>Критерии приёмки</strong> — условия, при которых требование считается выполненным<br><br>
+                Эти атрибуты позволяют полноценно управлять требованиями: отслеживать их состояние, контролировать изменения, обеспечивать трассируемость от бизнес-целей до реализации и тестирования.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 13 -->
+        <div class="question-card" data-correct="3">
+            <span class="question-number">Вопрос 13</span>
+            <p class="question-text">Вам поручено подготовить проектную документацию/управление требованиями. Какой инструмент для управления требованиями лучше выбрать?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q13" value="0"> Trello</label>
+                <label class="option"><input type="radio" name="q13" value="1"> Microsoft Excel</label>
+                <label class="option"><input type="radio" name="q13" value="2"> Google Sheets</label>
+                <label class="option"><input type="radio" name="q13" value="3"> Atlassian Jira</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(13)">Проверить</button>
+            <div class="explanation" id="exp13">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">- <strong>Jira</strong> — специализированный инструмент для управления проектами и требованиями, поддерживает трассировку, приоритизацию, статусы, связи между задачами<br>
+                - <strong>Trello</strong> — больше подходит для визуального управления задачами, но не для комплексного управления требованиями<br>
+                - <strong>Excel/Google Sheets</strong> — табличные редакторы, не предоставляют встроенных возможностей для управления жизненным циклом требований, трассируемости и интеграции с разработкой<br><br>
+                Jira позволяет эффективно управлять требованиями на протяжении всего жизненного цикла проекта.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 14 -->
+        <div class="question-card" data-correct="0">
+            <span class="question-number">Вопрос 14</span>
+            <p class="question-text">Процесс управления изменениями требований включает в себя несколько ключевых этапов?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q14" value="0"> Создание новых требований, оценка их влияния на проект, согласование с заинтересованными сторонами и последующая реализация</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(14)">Проверить</button>
+            <div class="explanation" id="exp14">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Процесс управления изменениями требований (Change Control Process) обычно включает:<br><br>
+                1. <strong>Идентификация изменения</strong> — запрос на изменение<br>
+                2. <strong>Анализ влияния</strong> — оценка последствий для сроков, бюджета, архитектуры<br>
+                3. <strong>Согласование</strong> — утверждение изменения с ключевыми стейкхолдерами<br>
+                4. <strong>Реализация</strong> — внесение изменения и обновление документации<br>
+                5. <strong>Верификация</strong> — проверка, что изменение корректно реализовано</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 15 -->
+        <div class="question-card" data-correct="0">
+            <span class="question-number">Вопрос 15</span>
+            <p class="question-text">Каким образом требования могут быть привязаны к задачам в системе управления проектами?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q15" value="0"> Ссылочная трассировка, иерархическая структура, специальные поля/теги, интеграция через инструменты, матрица трассируемости</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(15)">Проверить</button>
+            <div class="explanation" id="exp15">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text"><strong>Основные способы привязки требований к задачам:</strong><br><br>
+                1. <strong>Ссылочная трассировка</strong> — требование и задача связаны по ID<br>
+                2. <strong>Иерархическая структура</strong> — задача создаётся как подэлемент требования<br>
+                3. <strong>Специальные поля/теги</strong> — в задаче указывается ID связанного требования<br>
+                4. <strong>Интеграция через инструменты</strong> — Jira ↔ Confluence, Trello с карточками требований<br>
+                5. <strong>Матрица трассируемости</strong> — таблица связей между требованиями и задачами<br><br>
+                Привязка требований к задачам обеспечивает трассируемость — возможность отслеживать, какое требование реализуется в какой задаче, и контролировать полноту реализации всех требований в проекте.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 16 -->
+        <div class="question-card" data-correct="3">
+            <span class="question-number">Вопрос 16</span>
+            <p class="question-text">Ты проводишь интервью с клиентом для сбора требований к новой системе учёта запасов. Какую из следующих сущностей вам следует обсудить в первую очередь?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q16" value="0"> Заказы</label>
+                <label class="option"><input type="radio" name="q16" value="1"> Поставки</label>
+                <label class="option"><input type="radio" name="q16" value="2"> Складские помещения</label>
+                <label class="option"><input type="radio" name="q16" value="3"> Товары</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(16)">Проверить</button>
+            <div class="explanation" id="exp16">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">При сборе требований к системе учёта запасов нужно начинать с <strong>базовых сущностей (core entities)</strong>, которые являются центральными для предметной области:<br><br>
+                1. <strong>Товары</strong> — что хранится (основной объект учёта)<br>
+                2. <strong>Складские помещения</strong> — где хранится<br>
+                3. <strong>Поставки</strong> — как поступает<br>
+                4. <strong>Заказы</strong> — как расходуется<br><br>
+                Начинать с товаров логично, так как без понимания того, <strong>что</strong> учитывается, нельзя проектировать учёт <strong>где, как и когда</strong>.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 17 -->
+        <div class="question-card" data-correct="0">
+            <span class="question-number">Вопрос 17</span>
+            <p class="question-text">Что описывает диаграмма классов UML?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q17" value="0"> Статические структуры системы: классы, их атрибуты, методы и отношения между классами</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(17)">Проверить</button>
+            <div class="explanation" id="exp17">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text"><strong>Диаграмма классов UML описывает статические структуры системы:</strong><br><br>
+                1. <strong>Классы</strong> — их атрибуты и методы<br>
+                2. <strong>Отношения между классами</strong>:<br>
+                &nbsp;&nbsp;&nbsp;- Ассоциации<br>
+                &nbsp;&nbsp;&nbsp;- Наследование<br>
+                &nbsp;&nbsp;&nbsp;- Агрегация/композиция<br>
+                &nbsp;&nbsp;&nbsp;- Зависимости<br>
+                3. <strong>Интерфейсы</strong><br>
+                4. <strong>Перечисления (enum)</strong><br><br>
+                <strong>Пример:</strong><br>
+                - Класс <code>Заказ</code> с атрибутами <code>номер</code>, <code>дата</code>, <code>сумма</code><br>
+                - Класс <code>Клиент</code> с атрибутами <code>имя</code>, <code>адрес</code><br>
+                - Связь: <code>Клиент</code> → <code>Заказ</code> (ассоциация "один-ко-многим")<br><br>
+                Диаграмма классов показывает структуру системы на уровне объектов, их свойств и взаимосвязей, но <strong>не</strong> показывает поведение или последовательность действий (это делают диаграммы последовательности, активностей и др.).</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 18 -->
+        <div class="question-card" data-correct="0">
+            <span class="question-number">Вопрос 18</span>
+            <p class="question-text">В чём разница между Use Case (UC) и User Story (US)?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q18" value="0"> UC — детализированный сценарий с потоками (системный уровень), US — короткое описание намерения (пользовательский уровень)</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(18)">Проверить</button>
+            <div class="explanation" id="exp18">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text"><strong>Сравнение Use Case и User Story:</strong><br><br>
+                <table>
+                    <tr><th>Критерий</th><th>Use Case (UC)</th><th>User Story (US)</th></tr>
+                    <tr><td><strong>Формат</strong></td><td>Детализированный сценарий с основным и альтернативными потоками</td><td>Короткое описание в формате "Как [роль], я хочу [функция], чтобы [ценность]"</td></tr>
+                    <tr><td><strong>Детализация</strong></td><td>Высокая (предусловия, постусловия, шаги)</td><td>Низкая (описание намерения)</td></tr>
+                    <tr><td><strong>Уровень</strong></td><td>Системный уровень (система как чёрный ящик)</td><td>Пользовательский уровень (потребности пользователя)</td></tr>
+                    <tr><td><strong>Объём</strong></td><td>Один UC может охватывать несколько US</td><td>Одна US обычно соответствует части UC</td></tr>
+                    <tr><td><strong>Цель</strong></td><td>Описать все возможные сценарии взаимодействия</td><td>Сформулировать потребность для планирования спринта</td></tr>
+                </table>
+                - <strong>Use Case</strong> — это полноценная спецификация взаимодействия пользователя с системой, документ для аналитиков и разработчиков<br>
+                - <strong>User Story</strong> — это инструмент Agile для планирования, фокус на ценности для пользователя, а не на технической реализации</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 19 -->
+        <div class="question-card" data-correct="0">
+            <span class="question-number">Вопрос 19</span>
+            <p class="question-text">Разрабатывая систему для управления складом, важно мгновенно уведомить менеджера о поступлении нового товара. Какой механизм лучше всего подходит для этой задачи?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q19" value="0"> Настройка webhook для отправки уведомлений в реальном времени</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(19)">Проверить</button>
+            <div class="explanation" id="exp19">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">- <strong>Webhook</strong> — это механизм мгновенных (real-time) уведомлений, когда система отправляет HTTP-запрос на указанный URL при наступлении события (поступление товара)<br><br>
+                <strong>Альтернативы:</strong><br>
+                - Периодический опрос (polling) — не мгновенный, создаёт задержки<br>
+                - Email-рассылка — может быть не мгновенной<br>
+                - Сохранение в лог-файл — требует ручной проверки<br><br>
+                <strong>Webhook</strong> идеален для мгновенных уведомлений в реальном времени через мессенджеры, push-уведомления или внутренние системы.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 20 -->
+        <div class="question-card" data-correct="0">
+            <span class="question-number">Вопрос 20</span>
+            <p class="question-text">Ваша команда разрабатывает API для онлайн-кинотеатра. Как обеспечить безопасность и управление доступом к ресурсам?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q20" value="0"> Обеспечение идентификации и аутентификации клиента</label>
+                <label class="option"><input type="radio" name="q20" value="1"> Определить IP-адрес клиента для ограничения доступа</label>
+                <label class="option"><input type="radio" name="q20" value="2"> Генерировать статичные токены для упрощения управления</label>
+                <label class="option"><input type="radio" name="q20" value="3"> Указывать тип используемого HTTP-метода для запроса</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(20)">Проверить</button>
+            <div class="explanation" id="exp20">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Для безопасности API онлайн-кинотеатра необходимо:<br><br>
+                1. <strong>Идентификация и аутентификация</strong> — проверка, кто обращается к API (например, через OAuth, JWT-токены, API-ключи)<br>
+                2. <strong>Авторизация</strong> — проверка прав доступа к конкретным ресурсам (фильмам, функциям)<br><br>
+                Остальные варианты недостаточны или небезопасны:<br>
+                - IP-адреса можно подделать, не подходят для пользовательской аутентификации<br>
+                - Статичные токены небезопасны, их сложно отзывать<br>
+                - Указание HTTP-метода не обеспечивает безопасность, это часть спецификации REST</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 21 -->
+        <div class="question-card" data-correct="0">
+            <span class="question-number">Вопрос 21</span>
+            <p class="question-text">Как принцип HATEOAS помогает REST API быть более гибким и самодостаточным?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q21" value="0"> Через гипермедиа-ссылки в ответах API, указывающие доступные действия</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(21)">Проверить</button>
+            <div class="explanation" id="exp21">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text"><strong>HATEOAS</strong> (Hypermedia As The Engine Of Application State) — принцип REST, при котором сервер включает в ответ <strong>ссылки</strong> на возможные действия:<br><br>
+                <strong>Пример ответа с HATEOAS:</strong><br>
+                <pre>{
+  "order": {
+    "id": 123,
+    "status": "pending",
+    "_links": {
+      "self": "/orders/123",
+      "cancel": "/orders/123/cancel",
+      "pay": "/orders/123/payment"
+    }
+  }
+}</pre></div>
+            </div>
+        </div>
+
+        <!-- Вопрос 22 -->
+        <div class="question-card" data-correct="0">
+            <span class="question-number">Вопрос 22</span>
+            <p class="question-text">Клиент отправляет запрос на добавление товара в корзину. Какие статусные коды HTTP возвращаются в случае успеха?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q22" value="0"> 200 OK и 201 Created</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(22)">Проверить</button>
+            <div class="explanation" id="exp22">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Для операции "добавление товара в корзину" могут использоваться:<br><br>
+                1. <strong>200 OK</strong> — если корзина уже существует и товар добавлен в существующую корзину<br>
+                2. <strong>201 Created</strong> — если корзина создаётся впервые при добавлении первого товара<br><br>
+                <strong>Нюансы:</strong><br>
+                - <strong>201 Created</strong> обычно возвращается при создании нового ресурса с указанием его местоположения в заголовке <code>Location</code><br>
+                - <strong>200 OK</strong> — для успешного обновления существующего ресурса<br>
+                - На практике часто используют <strong>200 OK</strong> для обеих ситуаций, но стандарт допускает оба варианта</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 23 -->
+        <div class="question-card" data-correct="2">
+            <span class="question-number">Вопрос 23</span>
+            <p class="question-text">Какой транспортный протокол обычно используется для отправки SOAP-сообщений?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q23" value="0"> TCP</label>
+                <label class="option"><input type="radio" name="q23" value="1"> FTP</label>
+                <label class="option"><input type="radio" name="q23" value="2"> HTTP</label>
+                <label class="option"><input type="radio" name="q23" value="3"> SMTP</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(23)">Проверить</button>
+            <div class="explanation" id="exp23">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">- <strong>HTTP</strong> — наиболее распространённый транспортный протокол для SOAP-сообщений в веб-сервисах<br>
+                - <strong>SOAP</strong> может работать поверх разных протоколов (HTTP, SMTP, TCP, JMS), но <strong>HTTP</strong> является стандартом де-факто для веб-интеграций<br>
+                - <strong>HTTP</strong> обеспечивает широкую поддержку, безопасность (HTTPS), кэширование и совместимость с существующей инфраструктурой<br><br>
+                <strong>Почему не другие:</strong><br>
+                - <strong>TCP</strong> — может использоваться, но менее распространён для веб-сервисов<br>
+                - <strong>FTP</strong> — для передачи файлов, не для SOAP-сообщений<br>
+                - <strong>SMTP</strong> — для email, используется в специфических интеграциях, но не "обычно"</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 24 -->
+        <div class="question-card" data-correct="2">
+            <span class="question-number">Вопрос 24</span>
+            <p class="question-text">Если ты создаёшь API для банка с жёсткими правилами взаимодействия, какое преимущество даст подход CODE-FIRST?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q24" value="0"> Упрощение интеграции с другими системами</label>
+                <label class="option"><input type="radio" name="q24" value="1"> Быстрая адаптация кода под изменения</label>
+                <label class="option"><input type="radio" name="q24" value="2"> Экономия трудозатрат и гарантия соответствия документации и кода</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(24)">Проверить</button>
+            <div class="explanation" id="exp24">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text"><strong>CODE-FIRST подход</strong> — сначала пишется код, затем автоматически генерируется документация (WSDL для SOAP, OpenAPI для REST).<br><br>
+                <strong>Преимущества для банка с жёсткими правилами:</strong><br>
+                1. <strong>Гарантия соответствия</strong> — документация всегда актуальна, так как генерируется из кода<br>
+                2. <strong>Экономия трудозатрат</strong> — не нужно вручную поддерживать документацию<br>
+                3. <strong>Снижение ошибок</strong> — исключаются расхождения между кодом и документацией<br><br>
+                <strong>Важно:</strong> Для банков критична точность документации, так как партнёры и регуляторы требуют строгого соответствия спецификациям.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 25 -->
+        <div class="question-card" data-correct="0">
+            <span class="question-number">Вопрос 25</span>
+            <p class="question-text">После написания кода для веб-сервиса, какой документ полезен для других разработчиков?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q25" value="0"> Спецификация API</label>
+                <label class="option"><input type="radio" name="q25" value="1"> Тестовый сценарий</label>
+                <label class="option"><input type="radio" name="q25" value="2"> Техническая документация</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(25)">Проверить</button>
+            <div class="explanation" id="exp25">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text"><strong>Спецификация API</strong> (например, OpenAPI/Swagger для REST или WSDL для SOAP) — это документ, который описывает:<br><br>
+                - Доступные endpoints (URL)<br>
+                - Методы HTTP (GET, POST и т.д.)<br>
+                - Форматы запросов и ответов<br>
+                - Параметры, заголовки, коды ошибок<br><br>
+                <strong>Почему именно она:</strong><br>
+                1. <strong>Практическая полезность</strong> — разработчики могут сразу интегрироваться с API<br>
+                2. <strong>Автогенерация</strong> — часто генерируется автоматически из кода<br>
+                3. <strong>Стандартизация</strong> — понятный формат для всех разработчиков<br><br>
+                <strong>Техническая документация</strong> — более широкое понятие, может включать спецификацию API, но не является максимально конкретным и полезным для интеграции.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 26 -->
+        <div class="question-card" data-correct="2">
+            <span class="question-number">Вопрос 26</span>
+            <p class="question-text">Если в процессе разработки API для онлайн-магазина постоянно меняются требования, какой подход обеспечит большую гибкость?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q26" value="0"> CONTRACT-FIRST</label>
+                <label class="option"><input type="radio" name="q26" value="1"> Оба подхода достаточно гибки</label>
+                <label class="option"><input type="radio" name="q26" value="2"> CODE-FIRST</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(26)">Проверить</button>
+            <div class="explanation" id="exp26">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text"><strong>CODE-FIRST</strong> (сначала код, потом контракт) обеспечивает большую гибкость при часто меняющихся требованиях:<br><br>
+                1. <strong>Быстрые итерации</strong> — можно менять код, а документация обновится автоматически<br>
+                2. <strong>Меньше бюрократии</strong> — не нужно постоянно обновлять контракт вручную<br>
+                3. <strong>Гибкость разработки</strong> — проще экспериментировать и вносить изменения<br><br>
+                <strong>CONTRACT-FIRST</strong> (сначала контракт, потом код) более жёсткий:<br>
+                - Требует согласования контракта до начала разработки<br>
+                - Изменения контракта требуют пересогласования<br>
+                - Лучше подходит для стабильных проектов с чёткими требованиями<br><br>
+                Для онлайн-магазина с меняющимися требованиями CODE-FIRST предпочтительнее.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 27 -->
+        <div class="question-card" data-correct="0">
+            <span class="question-number">Вопрос 27</span>
+            <p class="question-text">Почему REST API проектируется как stateless (без состояния)?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q27" value="0"> Это позволяет обрабатывать запросы независимо, упрощая масштабируемость</label>
+                <label class="option"><input type="radio" name="q27" value="1"> Это упрощает восстановление данных при сбоях</label>
+                <label class="option"><input type="radio" name="q27" value="2"> Это ускоряет выполнение запросов за счет кэширования</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(27)">Проверить</button>
+            <div class="explanation" id="exp27">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text"><strong>Stateless (без состояния)</strong> в REST означает, что каждый HTTP-запрос содержит всю необходимую информацию для его обработки. Сервер не хранит состояние клиента между запросами.<br><br>
+                <strong>Преимущества stateless:</strong><br>
+                1. <strong>Масштабируемость</strong> — любой сервер может обработать любой запрос, нет привязки к конкретному серверу<br>
+                2. <strong>Надёжность</strong> — нет риска потери состояния при падении сервера<br>
+                3. <strong>Простота</strong> — не нужно синхронизировать состояния между серверами<br>
+                4. <strong>Кэширование</strong> — запросы могут кэшироваться, так как они самодостаточны<br><br>
+                Вариант с кэшированием частично верен, но не является основной причиной stateless архитектуры.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 28 -->
+        <div class="question-card" data-correct="0">
+            <span class="question-number">Вопрос 28</span>
+            <p class="question-text">Какие форматы данных чаще всего используются при генерации кода и документации в контексте API?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q28" value="0"> XML, JSON</label>
+                <label class="option"><input type="radio" name="q28" value="1"> HTML, CSS</label>
+                <label class="option"><input type="radio" name="q28" value="2"> TXT, PDF</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(28)">Проверить</button>
+            <div class="explanation" id="exp28">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">В контексте API генерация кода и документации чаще всего использует:<br><br>
+                1. <strong>JSON</strong> — для REST API (OpenAPI/Swagger спецификации в JSON/YAML)<br>
+                2. <strong>XML</strong> — для SOAP API (WSDL документы в XML)<br>
+                3. <strong>YAML</strong> — альтернатива JSON для OpenAPI спецификаций<br><br>
+                <strong>Почему именно они:</strong><br>
+                - <strong>Машиночитаемость</strong> — могут обрабатываться инструментами генерации кода<br>
+                - <strong>Стандартизация</strong> — форматы понятны и поддерживаются множеством фреймворков<br>
+                - <strong>Интеграция</strong> — легко интегрируются в CI/CD процессы<br><br>
+                <strong>HTML/CSS</strong> — для визуального представления документации, а не для генерации кода.<br>
+                <strong>TXT/PDF</strong> — для человекочитаемой документации, но не для автоматической генерации кода.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 29 -->
+        <div class="question-card" data-correct="2">
+            <span class="question-number">Вопрос 29</span>
+            <p class="question-text">Ты разрабатываешь новый интерфейс для веб-приложения. Какое преимущество даёт использование прототипов на разных этапах проектирования?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q29" value="0"> Ускоряет процесс разработки без тестирования</label>
+                <label class="option"><input type="radio" name="q29" value="1"> Позволяет избежать ошибок в коде</label>
+                <label class="option"><input type="radio" name="q29" value="2"> Помогает визуализировать идеи и получать обратную связь от пользователей</label>
+                <label class="option"><input type="radio" name="q29" value="3"> Уменьшает количество необходимых функций</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(29)">Проверить</button>
+            <div class="explanation" id="exp29">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text"><strong>Прототипы</strong> (wireframes, mockups, clickable prototypes) используются в UX/UI дизайне для:<br><br>
+                1. <strong>Визуализации</strong> — превращение абстрактных идей в конкретные интерфейсы<br>
+                2. <strong>Обратной связи</strong> — раннее тестирование с пользователями до написания кода<br>
+                3. <strong>Итеративного улучшения</strong> — быстрая корректировка дизайна на основе фидбека<br>
+                4. <strong>Снижения рисков</strong> — обнаружение проблем юзабилити до разработки<br><br>
+                <strong>Остальные варианты:</strong><br>
+                - Не ускоряют разработку "без тестирования" — прототипы как раз часть тестирования<br>
+                - Не позволяют полностью избежать ошибок в коде — только снижают их вероятность<br>
+                - Не уменьшают количество функций — они помогают правильно их спроектировать</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 30 -->
+        <div class="question-card" data-correct="2">
+            <span class="question-number">Вопрос 30</span>
+            <p class="question-text">Ты разрабатываешь процесс обработки заявок на кредит в банке и решаешь использовать диаграмму swimlane. Какой из следующих элементов лучше всего подходит для обозначения различных участников процесса?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q30" value="0"> Хранилище данных</label>
+                <label class="option"><input type="radio" name="q30" value="1"> Поток данных</label>
+                <label class="option"><input type="radio" name="q30" value="2"> Линия плавания (swimline)</label>
+                <label class="option"><input type="radio" name="q30" value="3"> Процесс</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(30)">Проверить</button>
+            <div class="explanation" id="exp30">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text"><strong>Диаграмма swimlane (дорожки/плавательные дорожки)</strong> используется для визуализации бизнес-процессов с распределением по ролям/участникам:<br><br>
+                1. <strong>Swimline (дорожка)</strong> — обозначает отдельного участника или роль (например: "Клиент", "Менеджер", "Кредитный комитет")<br>
+                2. <strong>Процесс</strong> — действия внутри дорожки<br>
+                3. <strong>Поток данных/управления</strong> — стрелки между действиями<br>
+                4. <strong>Хранилище данных</strong> — место хранения информации<br><br>
+                <strong>В контексте банковского процесса:</strong><br>
+                - Каждая дорожка = отдельный участник процесса<br>
+                - Позволяет чётко видеть, кто за что отвечает<br>
+                - Упрощает анализ узких мест и распределения ответственности</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 31 -->
+        <div class="question-card" data-correct="0">
+            <span class="question-number">Вопрос 31</span>
+            <p class="question-text">Ты создаёшь ERD для системы управления проектами. Какой тип связи между сущностями 'Проект' и 'Сотрудник' следует использовать, если один проект может иметь несколько сотрудников, а один сотрудник может работать над несколькими проектами?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q31" value="0"> Многие ко многим</label>
+                <label class="option"><input type="radio" name="q31" value="1"> Один к одному</label>
+                <label class="option"><input type="radio" name="q31" value="2"> Один ко многим</label>
+                <label class="option"><input type="radio" name="q31" value="3"> Один к нулю или к одному</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(31)">Проверить</button>
+            <div class="explanation" id="exp31">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">В ERD (Entity-Relationship Diagram) типы связей определяются по правилам:<br><br>
+                <strong>Условие:</strong><br>
+                - Один проект → несколько сотрудников<br>
+                - Один сотрудник → несколько проектов<br><br>
+                <strong>Математически:</strong> <strong>N:M</strong> (Многие ко многим)</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 32 -->
+        <div class="question-card" data-correct="3">
+            <span class="question-number">Вопрос 32</span>
+            <p class="question-text">Ты моделируешь систему обработки заказов в интернет-магазине. Какой элемент DFD лучше всего подходит для обозначения заказа, поступившего от клиента?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q32" value="0"> Хранилище данных "Заказы"</label>
+                <label class="option"><input type="radio" name="q32" value="1"> Процесс "Обработка заказа"</label>
+                <label class="option"><input type="radio" name="q32" value="2"> Внешний агент "Клиент"</label>
+                <label class="option"><input type="radio" name="q32" value="3"> Поток данных "Заказ"</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(32)">Проверить</button>
+            <div class="explanation" id="exp32">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">В DFD (Data Flow Diagram — диаграмме потоков данных) элементы имеют разные назначения:<br><br>
+                1. <strong>Поток данных (Data Flow)</strong> — <strong>"Заказ"</strong> — перемещение данных между процессами, хранилищами и внешними сущностями (клиент → система)<br>
+                2. <strong>Хранилище данных (Data Store)</strong> — <strong>"Заказы"</strong> — место хранения данных (база данных)<br>
+                3. <strong>Процесс (Process)</strong> — <strong>"Обработка заказа"</strong> — преобразование данных<br>
+                4. <strong>Внешний агент (External Entity)</strong> — <strong>"Клиент"</strong> — источник или получатель данных<br><br>
+                <strong>Заказ, поступивший от клиента</strong> — это <strong>данные в движении</strong>, следовательно, это <strong>поток данных</strong>, который идёт от внешнего агента "Клиент" к процессу "Обработка заказа".</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 33 -->
+        <div class="question-card" data-correct="1">
+            <span class="question-number">Вопрос 33</span>
+            <p class="question-text">Ты работаешь над проектом по разработке системы управления библиотекой. Какой элемент DFD ты будешь использовать, чтобы обозначить процесс выдачи книг?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q33" value="0"> Поток данных</label>
+                <label class="option"><input type="radio" name="q33" value="1"> Процесс</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(33)">Проверить</button>
+            <div class="explanation" id="exp33">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">В DFD (Data Flow Diagram) элементы имеют строгие назначения:<br><br>
+                <strong>Процесс (Process)</strong> — преобразование или обработка данных:<br>
+                - Пример: "Выдача книги", "Обработка заявки", "Формирование отчёта"<br>
+                - Обозначается: прямоугольник с закруглёнными углами или круг<br><br>
+                <strong>Поток данных (Data Flow)</strong> — движение данных между элементами:<br>
+                - Пример: "Запрос на выдачу", "Информация о книге", "Данные читателя"<br>
+                - Обозначается: стрелка<br><br>
+                <strong>В контексте библиотеки:</strong><br>
+                - <strong>"Выдача книг"</strong> — это <strong>процесс</strong>, который преобразует данные (получает запрос → обновляет статус книги → записывает выдачу)<br>
+                - <strong>"Запрос на выдачу"</strong> или <strong>"Информация о книге"</strong> — это <strong>потоки данных</strong>, которые входят в процесс или выходят из него</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 34 -->
+        <div class="question-card" data-correct="0">
+            <span class="question-number">Вопрос 34</span>
+            <p class="question-text">При интеграции двух систем учёта, каким образом CONTRACT-FIRST гарантирует правильное взаимодействие?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q34" value="0"> Генерирует код на основе документов и спецификации</label>
+                <label class="option"><input type="radio" name="q34" value="1"> Сначала создаются тесты, а потом код</label>
+                <label class="option"><input type="radio" name="q34" value="2"> Разрабатывается код, а документация создаётся позже</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(34)">Проверить</button>
+            <div class="explanation" id="exp34">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text"><strong>CONTRACT-FIRST подход</strong> в интеграции означает:<br><br>
+                1. <strong>Сначала контракт</strong> — создаётся формальная спецификация (WSDL для SOAP, OpenAPI для REST)<br>
+                2. <strong>Затем код</strong> — код клиента и сервера генерируется <strong>автоматически</strong> на основе контракта<br>
+                3. <strong>Гарантия соответствия</strong> — обе системы следуют одному контракту, минимизируя риски несовместимости<br><br>
+                <strong>Для интеграции двух систем учёта это особенно важно:</strong><br>
+                - Исключаются расхождения в форматах данных<br>
+                - Снижаются ошибки ручной реализации<br>
+                - Упрощается поддержка и изменение API<br><br>
+                <strong>CODE-FIRST</strong> (разрабатывается код, а документация создаётся позже) не гарантирует правильность взаимодействия, так как возможны расхождения между реализациями.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 35 -->
+        <div class="question-card" data-correct="1">
+            <span class="question-number">Вопрос 35</span>
+            <p class="question-text">Разрабатывая API для управления профилями пользователей, какие HTTP-методы ты бы использовал для создания, чтения, обновления и удаления данных?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q35" value="0"> PATCH, OPTIONS, HEAD</label>
+                <label class="option"><input type="radio" name="q35" value="1"> GET, POST, PUT, DELETE</label>
+                <label class="option"><input type="radio" name="q35" value="2"> CONNECT, TRACE, SEARCH</label>
+                <label class="option"><input type="radio" name="q35" value="3"> ALL</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(35)">Проверить</button>
+            <div class="explanation" id="exp35">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Стандартные HTTP-методы для операций CRUD в REST API:<br><br>
+                <table>
+                    <tr><th>Операция</th><th>HTTP-метод</th><th>Пример использования</th></tr>
+                    <tr><td><strong>Create</strong> (Создание)</td><td><strong>POST</strong></td><td>Создание нового профиля пользователя</td></tr>
+                    <tr><td><strong>Read</strong> (Чтение)</td><td><strong>GET</strong></td><td>Получение данных профиля по ID</td></tr>
+                    <tr><td><strong>Update</strong> (Обновление)</td><td><strong>PUT</strong> или <strong>PATCH</strong></td><td>Полное обновление профиля (PUT) или частичное (PATCH)</td></tr>
+                    <tr><td><strong>Delete</strong> (Удаление)</td><td><strong>DELETE</strong></td><td>Удаление профиля пользователя</td></tr>
+                </table>
+                <strong>Почему именно эта комбинация:</strong><br>
+                - <strong>GET, POST, PUT, DELETE</strong> — стандартный набор для RESTful API (CRUD операции)<br>
+                - <strong>PATCH</strong> может дополнять PUT для частичного обновления<br>
+                - <strong>OPTIONS, HEAD, CONNECT, TRACE</strong> — служебные методы, не для основных операций<br>
+                - <strong>ALL</strong> — не является реальным HTTP-методом</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 36 -->
+        <div class="question-card" data-correct="0,1">
+            <span class="question-number">Вопрос 36 (несколько вариантов)</span>
+            <p class="question-text">Ты создаёшь API для приложения интернет-банкинга. Почему важно использовать аутентификацию, какие задачи она решает? Выбери все подходящие варианты.</p>
+            <div class="options">
+                <label class="option"><input type="checkbox" name="q36" value="0"> Обеспечивает безопасную передачу данных между клиентами и сервером</label>
+                <label class="option"><input type="checkbox" name="q36" value="1"> Помогает контролировать доступ к ресурсам на основе прав пользователя</label>
+                <label class="option"><input type="checkbox" name="q36" value="2"> Позволяет пользователям получать доступ к ресурсам без идентификации</label>
+                <label class="option"><input type="checkbox" name="q36" value="3"> Упрощает процесс разработки за счёт автоматизации запросов</label>
+            </div>
+            <button class="check-btn" onclick="checkMultipleAnswer(36)">Проверить</button>
+            <div class="explanation" id="exp36">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Аутентификация в API интернет-банкинга решает критически важные задачи:<br><br>
+                1. <strong>Безопасная передача данных</strong> — подтверждает личность клиента, предотвращает несанкционированный доступ<br>
+                2. <strong>Контроль доступа (авторизация)</strong> — определяет, к каким ресурсам (счета, переводы, история) пользователь имеет право доступа<br><br>
+                <strong>Неправильные варианты:</strong><br>
+                - <strong>Доступ без идентификации</strong> — противоречит самой сути аутентификации<br>
+                - <strong>Упрощение разработки</strong> — аутентификация скорее усложняет разработку, но это необходимая мера безопасности<br><br>
+                <strong>Для банкинга особенно важно:</strong><br>
+                - Соответствие требованиям регуляторов (ЦБ, PCI DSS)<br>
+                - Защита финансовых данных и транзакций<br>
+                - Предотвращение мошенничества</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 37 -->
+        <div class="question-card" data-correct="1">
+            <span class="question-number">Вопрос 37</span>
+            <p class="question-text">Ты работаешь в стартапе, который разрабатывает систему управления задачами. Какие сущности нужно выделить в первую очередь для структуры приложения?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q37" value="0"> Команда разрабов, бюджет, сроки</label>
+                <label class="option"><input type="radio" name="q37" value="1"> Пользователь, задача, проект</label>
+                <label class="option"><input type="radio" name="q37" value="2"> Дата создания, статус задачи, уведомление</label>
+                <label class="option"><input type="radio" name="q37" value="3"> Приоритет задачи, сроки выполнения, категории задач</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(37)">Проверить</button>
+            <div class="explanation" id="exp37">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">В моделировании домена системы управления задачами первыми выделяются базовые бизнес-сущности: пользователь (кто выполняет), задача (основная единица работы) и проект (контейнер для группировки задач). Это соответствует принципам Domain-Driven Design (DDD), где фокус на core domain entities для построения устойчивой структуры приложения.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 38 -->
+        <div class="question-card" data-correct="2">
+            <span class="question-number">Вопрос 38</span>
+            <p class="question-text">Твоя команда разрабатывает CRM. Есть дублирование "Клиент" и "Контрагент". Какова основная ошибка в этом случае?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q38" value="0"> Игнор потребностей пользователей</label>
+                <label class="option"><input type="radio" name="q38" value="1"> Отсутствие четкой формулировки бизнес-целей</label>
+                <label class="option"><input type="radio" name="q38" value="2"> Неправильное определение границ сущностей</label>
+                <label class="option"><input type="radio" name="q38" value="3"> Неправильное именование сущностей</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(38)">Проверить</button>
+            <div class="explanation" id="exp38">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Дублирование сущностей возникает из-за нарушения bounded context: "Клиент" и "Контрагент" описывают один бизнес-объект с разными аспектами (физлицо vs юрлицо), но без четких границ приводят к нормализационным проблемам и дубликатам данных. Нужно объединить в единую сущность с подтипами (inheritance или single table).</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 39 -->
+        <div class="question-card" data-correct="2">
+            <span class="question-number">Вопрос 39</span>
+            <p class="question-text">Ты ведешь исследование предметной области для финансового приложения. Каким инструментом визуализировать и структурировать данные?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q39" value="0"> Word</label>
+                <label class="option"><input type="radio" name="q39" value="1"> Notepad</label>
+                <label class="option"><input type="radio" name="q39" value="2"> Miro</label>
+                <label class="option"><input type="radio" name="q39" value="3"> PhotoShop</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(39)">Проверить</button>
+            <div class="explanation" id="exp39">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Miro — коллаборативный инструмент для визуализации (mind maps, UML, ER-диаграммы), идеален для структурирования предметной области: кластеризация сущностей, связей и процессов. Word/Notepad подходят для текста, Photoshop — для графики, но не для аналитики.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 40 -->
+        <div class="question-card" data-correct="2">
+            <span class="question-number">Вопрос 40</span>
+            <p class="question-text">Сущность для системы учета заказов?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q40" value="0"> Товары</label>
+                <label class="option"><input type="radio" name="q40" value="1"> Поставщик</label>
+                <label class="option"><input type="radio" name="q40" value="2"> Заказы</label>
+                <label class="option"><input type="radio" name="q40" value="3"> Склады</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(40)">Проверить</button>
+            <div class="explanation" id="exp40">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Центральная сущность — "Заказы", вокруг которой строится вся логика (связи с товарами, поставщиками, складами). Это primary entity в ER-модели, определяющая транзакционный поток системы.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 41 -->
+        <div class="question-card" data-correct="1">
+            <span class="question-number">Вопрос 41</span>
+            <p class="question-text">Сущность для CRM системы?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q41" value="0"> Интеграция с почтой</label>
+                <label class="option"><input type="radio" name="q41" value="1"> Управление контактами</label>
+                <label class="option"><input type="radio" name="q41" value="2"> Настройка безопасности</label>
+                <label class="option"><input type="radio" name="q41" value="3"> Возможность отчетности</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(41)">Проверить</button>
+            <div class="explanation" id="exp41">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Core сущность CRM — контакты (клиенты, лиды), с атрибутами (имя, email, история взаимодействий). Остальное — функции, а не сущности; фокус на контактах обеспечивает нормализацию данных и масштабируемость.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 42 -->
+        <div class="question-card" data-correct="0">
+            <span class="question-number">Вопрос 42</span>
+            <p class="question-text">Ты разрабатываешь систему управления проектами. Какой элемент BPMN будет наиболее уместен для различных сценариев начала проекта?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q42" value="0"> Событие начала с несколькими исходящими потоками</label>
+                <label class="option"><input type="radio" name="q42" value="1"> Задача с условием проверки источника инициативы</label>
+                <label class="option"><input type="radio" name="q42" value="2"> Эксклюзивный шлюз перед событием начала</label>
+                <label class="option"><input type="radio" name="q42" value="3"> Параллельный шлюз для одновременного рассмотрения нескольких сценариев</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(42)">Проверить</button>
+            <div class="explanation" id="exp42">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Start Event с multiple outgoing sequence flows моделирует различные триггеры запуска (например, запрос клиента, инициирование менеджера), отражая nondeterministic начало процесса без условной логики на старте.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 43 -->
+        <div class="question-card" data-correct="0">
+            <span class="question-number">Вопрос 43</span>
+            <p class="question-text">Ты делаешь систему учета сотрудников. Как удалить информацию о неактивных клиентах?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q43" value="0"> Архивирование записи о клиенте с пометкой "неактивный"</label>
+                <label class="option"><input type="radio" name="q43" value="1"> Полное удаление записи из базы данных</label>
+                <label class="option"><input type="radio" name="q43" value="2"> Перемещение записи в таблицу неактивных клиентов</label>
+                <label class="option"><input type="radio" name="q43" value="3"> Удаление личной информации, оставив идентификатор</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(43)">Проверить</button>
+            <div class="explanation" id="exp43">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Архивирование (soft delete) сохраняет целостность данных для аудита/GDPR, меняя статус на "inactive" без физического удаления. Полное удаление нарушает referential integrity и compliance.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 44 -->
+        <div class="question-card" data-correct="1">
+            <span class="question-number">Вопрос 44</span>
+            <p class="question-text">Ты моделируешь процесс обработки заказов в интернет-магазине. Какой элемент BPMN лучше подходит для задачи упаковки товара?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q44" value="0"> Эксклюзивный шлюз перед задачей упаковки</label>
+                <label class="option"><input type="radio" name="q44" value="1"> Задача с аннотацией для пояснения условий</label>
+                <label class="option"><input type="radio" name="q44" value="2"> -||- с параллельным шлюзом для разных условий</label>
+                <label class="option"><input type="radio" name="q44" value="3"> -||- с вложенной логикой проверки условий</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(44)">Проверить</button>
+            <div class="explanation" id="exp44">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Task (прямоугольник) с Text Annotation описывает атомарную операцию упаковки; шлюзы/вложенности избыточны для простой задачи без ветвлений.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 45 -->
+        <div class="question-card" data-correct="1">
+            <span class="question-number">Вопрос 45</span>
+            <p class="question-text">Ты делаешь систему управления заказами. Как обновить количество товара на складе после получения новой партии?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q45" value="0"> Прямое обновление</label>
+                <label class="option"><input type="radio" name="q45" value="1"> Использование транзакций</label>
+                <label class="option"><input type="radio" name="q45" value="2"> Создание новой записи</label>
+                <label class="option"><input type="radio" name="q45" value="3"> Обновление количества через отдельную задачу в BPMN-процессе</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(45)">Проверить</button>
+            <div class="explanation" id="exp45">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Транзакции (BEGIN/COMMIT) обеспечивают ACID-свойства: атомарность обновления количества (UPDATE stock SET qty = qty + new_batch), предотвращая race conditions при параллельных операциях.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 46 -->
+        <div class="question-card" data-correct="0">
+            <span class="question-number">Вопрос 46</span>
+            <p class="question-text">Какой элемент DFD использовать для выдачи книг из библиотеки?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q46" value="0"> Процесс</label>
+                <label class="option"><input type="radio" name="q46" value="1"> Внешний агент</label>
+                <label class="option"><input type="radio" name="q46" value="2"> Поток данных</label>
+                <label class="option"><input type="radio" name="q46" value="3"> Хранилище данных</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(46)">Проверить</button>
+            <div class="explanation" id="exp46">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Process (круг/овал) моделирует трансформацию данных: "Выдача книги" преобразует поток (запрос → выдача), взаимодействуя с хранилищем (каталог) и агентом (читатель).</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 47 -->
+        <div class="question-card" data-correct="2">
+            <span class="question-number">Вопрос 47</span>
+            <p class="question-text">Ты делаешь систему учета сотрудников. Какие сущности выделить в ER-диаграмме?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q47" value="0"> Сотрудник, клиент, заказ</label>
+                <label class="option"><input type="radio" name="q47" value="1"> Сотрудник, поставщик, товар</label>
+                <label class="option"><input type="radio" name="q47" value="2"> Сотрудник, отдел, проект</label>
+                <label class="option"><input type="radio" name="q47" value="3"> Сотрудник, бюджет, дата начала</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(47)">Проверить</button>
+            <div class="explanation" id="exp47">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Базовые сущности: Employee (1:N Department, N:M Project), отражающие иерархию и распределение; клиент/поставщик/товар — из другой домены.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 48 -->
+        <div class="question-card" data-correct="2">
+            <span class="question-number">Вопрос 48</span>
+            <p class="question-text">В компании "Логистика24" автоматизируют процесс обработки заказов клиентов. Используют swimlane диаграмму. Как распределить пространство?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q48" value="0"> Всё одним списком, без разделения по ролям и этапам</label>
+                <label class="option"><input type="radio" name="q48" value="1"> По горизонтали - этапы процесса, по вертикали - роли сотрудников</label>
+                <label class="option"><input type="radio" name="q48" value="2"> По горизонтали - роли сотрудников, по вертикали - этапы процесса</label>
+                <label class="option"><input type="radio" name="q48" value="3"> Роли и этапы случайно перемешаны</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(48)">Проверить</button>
+            <div class="explanation" id="exp48">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Стандартная ориентация swimlanes: horizontal lanes для ролей (Actor pools), vertical для этапов (phases), обеспечивает читаемость ответственности в процессе обработки заказов.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 49 -->
+        <div class="question-card" data-correct="0">
+            <span class="question-number">Вопрос 49</span>
+            <p class="question-text">Какой элемент диаграммы swimlane поможет разделить обязанности между разными участниками?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q49" value="0"> Разделение по линии для каждого участника</label>
+                <label class="option"><input type="radio" name="q49" value="1"> Один процесс для всех</label>
+                <label class="option"><input type="radio" name="q49" value="2"> Объединение всех действий в одной линии</label>
+                <label class="option"><input type="radio" name="q49" value="3"> Аннотации к действиям</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(49)">Проверить</button>
+            <div class="explanation" id="exp49">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Swimlanes (lanes/pools) физически разделяют полосу по ролям, где действия размещаются в соответствующих линиях, явно показывая ownership.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 50 -->
+        <div class="question-card" data-correct="1">
+            <span class="question-number">Вопрос 50</span>
+            <p class="question-text">Система управления заказами. Заказ оплачен, но не отправлен. Какое состояние?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q50" value="0"> Отменен</label>
+                <label class="option"><input type="radio" name="q50" value="1"> Ожидание отправки</label>
+                <label class="option"><input type="radio" name="q50" value="2"> Обработан</label>
+                <label class="option"><input type="radio" name="q50" value="3"> В процессе оплаты</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(50)">Проверить</button>
+            <div class="explanation" id="exp50">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">State machine: после оплаты (paid) → pending shipment (awaiting dispatch), до доставки; отражает lifecycle заказа в e-commerce.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 51 -->
+        <div class="question-card" data-correct="0">
+            <span class="question-number">Вопрос 51</span>
+            <p class="question-text">Система учета студентов. Какой тип связи "Студент" - "Курс" использовать, если один студент может записаться на несколько курсов?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q51" value="0"> М-М</label>
+                <label class="option"><input type="radio" name="q51" value="1"> О-О</label>
+                <label class="option"><input type="radio" name="q51" value="2"> О-М</label>
+                <label class="option"><input type="radio" name="q51" value="3"> Один к нулю или одному</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(51)">Проверить</button>
+            <div class="explanation" id="exp51">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Many-to-Many (junction table Enrollment): один студент → много курсов, один курс → много студентов; требует ассоциативной таблицы с foreign keys.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 52 -->
+        <div class="question-card" data-correct="2">
+            <span class="question-number">Вопрос 52</span>
+            <p class="question-text">Какой элемент ключевой для UC "Регистрация пользователя"?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q52" value="0"> Важные требования к безопасности</label>
+                <label class="option"><input type="radio" name="q52" value="1"> Участники "студент", "админ"</label>
+                <label class="option"><input type="radio" name="q52" value="2"> Основной поток: ввод данных, подтверждение регистрации</label>
+                <label class="option"><input type="radio" name="q52" value="3"> Альтернативный поток: ошибка при вводе данных</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(52)">Проверить</button>
+            <div class="explanation" id="exp52">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Main success scenario (happy path) — core UC: steps 1–N (input → validate → confirm), определяет базовый flow; альтернативы/участники — вторичны.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 53 -->
+        <div class="question-card" data-correct="1">
+            <span class="question-number">Вопрос 53</span>
+            <p class="question-text">Разница между UC и US (Несколько)?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q53" value="0"> UC - система, US - юзер</label>
+                <label class="option"><input type="radio" name="q53" value="1"> UC и US служат разным целям в процессе разработки</label>
+                <label class="option"><input type="radio" name="q53" value="2"> UC подробнее, чем US</label>
+                <label class="option"><input type="radio" name="q53" value="3"> US включает несколько сценариев использования</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(53)">Проверить</button>
+            <div class="explanation" id="exp53">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Use Case (UML, детальный нарратив с flows) для анализа/дизайна; User Story (Agile, "As a [role] I want [feature] so [benefit]") — для backlog/приоритизации; UC детальнее, US — высокоуровневые.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 54 -->
+        <div class="question-card" data-correct="3">
+            <span class="question-number">Вопрос 54</span>
+            <p class="question-text">Платформа для фрилансеров. Какой вариант является хорошей US?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q54" value="0"> Добавить функцию чата</label>
+                <label class="option"><input type="radio" name="q54" value="1"> Как админ, я хочу управлять юзерами</label>
+                <label class="option"><input type="radio" name="q54" value="2"> Платформа должна загружаться быстро</label>
+                <label class="option"><input type="radio" name="q54" value="3"> Как фрилансер, хочу видеть список доступных проектов</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(54)">Проверить</button>
+            <div class="explanation" id="exp54">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">INVEST-критерий: Independent, Negotiable, Valuable, Estimable, Small, Testable; полная шаблон-структура с ролью/ценностью, в отличие от imperative/неполных.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 55 -->
+        <div class="question-card" data-correct="2">
+            <span class="question-number">Вопрос 55</span>
+            <p class="question-text">Основной поток для UC процесса оформления заказа?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q55" value="0"> Получение подтверждения юзером</label>
+                <label class="option"><input type="radio" name="q55" value="1"> Ввод адреса</label>
+                <label class="option"><input type="radio" name="q55" value="2"> Выбор товара</label>
+                <label class="option"><input type="radio" name="q55" value="3"> Просмотр списка доступных товаров</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(55)">Проверить</button>
+            <div class="explanation" id="exp55">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Main flow: 1. Browse/catalog → 2. Select items (корзина) → address/payment; выбор — ключевой пре-condition перед checkout.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 56 -->
+        <div class="question-card" data-correct="1">
+            <span class="question-number">Вопрос 56</span>
+            <p class="question-text">US для системы управления проектами. Какой пример важен для выполнения?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q56" value="0"> Функция соответствует требованиям безопасности</label>
+                <label class="option"><input type="radio" name="q56" value="1"> Функция доступна только админу</label>
+                <label class="option"><input type="radio" name="q56" value="2"> Функция имеет возможность интеграции с другими методами</label>
+                <label class="option"><input type="radio" name="q56" value="3"> Функция протестирована вручную</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(56)">Проверить</button>
+            <div class="explanation" id="exp56">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Acceptance criteria (Definition of Done): роль-based access, testable condition; безопасность/интеграция — косвенные.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 57 -->
+        <div class="question-card" data-correct="3">
+            <span class="question-number">Вопрос 57</span>
+            <p class="question-text">Как API Key помогает в обеспечении безопасности и управлении доступом к ресурсам?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q57" value="0"> Генерирует стат. токены для упрощения управления</label>
+                <label class="option"><input type="radio" name="q57" value="1"> Указывает HTTP-метод</label>
+                <label class="option"><input type="radio" name="q57" value="2"> Определяет IP</label>
+                <label class="option"><input type="radio" name="q57" value="3"> Обеспечивает идентификацию и аутентификацию</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(57)">Проверить</button>
+            <div class="explanation" id="exp57">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">API Key — простая auth (identification via unique token), rate limiting; не шифрует (static), не для HTTP/IP.</div>
+            </div>
+        </div>
+
+        <!-- Вопрос 58 -->
+        <div class="question-card" data-correct="0">
+            <span class="question-number">Вопрос 58</span>
+            <p class="question-text">Ты делаешь ИС для процесса обработки возвратов в интернет-магазине. Какой из вариантов является альтернативным потоком?</p>
+            <div class="options">
+                <label class="option"><input type="radio" name="q58" value="0"> Пользователь видит неправильные данные о возврате и получает сообщение об ошибке</label>
+                <label class="option"><input type="radio" name="q58" value="1"> Пользователь подтверждает возврат</label>
+                <label class="option"><input type="radio" name="q58" value="2"> Пользователь выбирает способ возврата</label>
+                <label class="option"><input type="radio" name="q58" value="3"> Пользователь успешно завершает оформление возврата</label>
+            </div>
+            <button class="check-btn" onclick="checkAnswer(58)">Проверить</button>
+            <div class="explanation" id="exp58">
+                <div class="explanation-title">📌 Объяснение:</div>
+                <div class="explanation-text">Alternative flow: deviation от main path (confirm/select/success) на error handling (validate fail → error message).</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let score = 0;
+        let answeredQuestions = new Set();
+
+        function checkAnswer(questionNum) {
+            const card = document.querySelectorAll('.question-card')[questionNum - 1];
+            const correctAnswer = card.dataset.correct;
+            const selectedOption = card.querySelector('input[type="radio"]:checked');
+            const explanation = document.getElementById('exp' + questionNum);
+            
+            if (!selectedOption) {
+                alert('Пожалуйста, выберите ответ!');
+                return;
+            }
+            
+            const options = card.querySelectorAll('.option');
+            options.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+                const input = opt.querySelector('input');
+                if (input.value === correctAnswer) {
+                    opt.classList.add('correct');
+                } else if (input.checked) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            explanation.classList.add('show');
+            
+            if (!answeredQuestions.has(questionNum)) {
+                if (selectedOption.value === correctAnswer) {
+                    score++;
+                }
+                answeredQuestions.add(questionNum);
+                document.getElementById('score').textContent = score;
+            }
+            
+            updateProgress();
+        }
+
+        function checkMultipleAnswer(questionNum) {
+            const card = document.querySelectorAll('.question-card')[questionNum - 1];
+            const correctAnswers = card.dataset.correct.split(',').map(Number);
+            const selectedOptions = Array.from(card.querySelectorAll('input[type="checkbox"]:checked')).map(cb => parseInt(cb.value));
+            const explanation = document.getElementById('exp' + questionNum);
+            
+            if (selectedOptions.length === 0) {
+                alert('Пожалуйста, выберите хотя бы один ответ!');
+                return;
+            }
+            
+            const options = card.querySelectorAll('.option');
+            options.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+                const input = opt.querySelector('input');
+                const value = parseInt(input.value);
+                if (correctAnswers.includes(value)) {
+                    opt.classList.add('correct');
+                } else if (input.checked) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            explanation.classList.add('show');
+            
+            if (!answeredQuestions.has(questionNum)) {
+                const isCorrect = correctAnswers.length === selectedOptions.length && 
+                                  correctAnswers.every(ans => selectedOptions.includes(ans));
+                if (isCorrect) {
+                    score++;
+                }
+                answeredQuestions.add(questionNum);
+                document.getElementById('score').textContent = score;
+            }
+            
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const progress = (answeredQuestions.size / 58) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        // Добавляем обработчики для визуального выделения выбранных опций
+        document.querySelectorAll('.option').forEach(option => {
+            option.addEventListener('click', function(e) {
+                if (e.target.tagName !== 'INPUT') {
+                    const input = this.querySelector('input');
+                    if (input.type === 'radio') {
+                        this.parentElement.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+                        input.checked = true;
+                        this.classList.add('selected');
+                    } else {
+                        input.checked = !input.checked;
+                        this.classList.toggle('selected');
+                    }
+                } else {
+                    if (input.type === 'radio') {
+                        this.parentElement.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+                        this.classList.add('selected');
+                    } else {
+                        this.classList.toggle('selected');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
