@@ -1,0 +1,1339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Jira Export for Weeek Import - BSA13 Requirements Management Project -->
+<rss version="0.92">
+  <channel>
+    <title>BSA13 - Управление требованиями</title>
+    <link>https://weeek.net</link>
+    <description>Проект по управлению требованиями для барбершопа</description>
+    <language>ru</language>
+    <project id="BSA13" name="BSA13 - Управление требованиями" key="BSA13">
+      
+      <!-- ============================================ -->
+      <!-- CUSTOM FIELDS (Пользовательские поля) -->
+      <!-- ============================================ -->
+      <customFields>
+        <customField id="customfield_10001" name="ID требования" type="textfield">
+          <description>Уникальный идентификатор требования (BIZ000001, USR000001, etc.)</description>
+        </customField>
+        <customField id="customfield_10002" name="Тип требования" type="select">
+          <description>Тип требования</description>
+          <options>
+            <option value="BIZ">Бизнес-требование</option>
+            <option value="USR">Требование пользователя</option>
+            <option value="FNC">Функциональное требование</option>
+            <option value="NFQ">Нефункциональное требование</option>
+            <option value="INT">Требование к интерфейсу</option>
+            <option value="TC">Тест-кейс</option>
+            <option value="DEF">Дефект</option>
+          </options>
+        </customField>
+        <customField id="customfield_10003" name="Источник" type="textfield">
+          <description>Ссылка на вышестоящее требование</description>
+        </customField>
+        <customField id="customfield_10004" name="Связи" type="textfield">
+          <description>ID связанных требований</description>
+        </customField>
+        <customField id="customfield_10005" name="Метод проверки" type="textarea">
+          <description>Как проверить требование</description>
+        </customField>
+        <customField id="customfield_10006" name="Критерии приемки" type="textarea">
+          <description>Критерии приемки для User Story</description>
+        </customField>
+        <customField id="customfield_10007" name="Версия продукта" type="textfield">
+          <description>Версия продукта, в которую включено требование</description>
+        </customField>
+        <customField id="customfield_10008" name="Патч/Спринт" type="textfield">
+          <description>Спринт или патч, в который включено требование</description>
+        </customField>
+        <customField id="customfield_10009" name="Тестовые данные" type="textarea">
+          <description>Тестовые данные для тест-кейса</description>
+        </customField>
+        <customField id="customfield_10010" name="Предусловия" type="textarea">
+          <description>Предусловия для тест-кейса</description>
+        </customField>
+        <customField id="customfield_10011" name="Постусловия" type="textarea">
+          <description>Постусловия для тест-кейса</description>
+        </customField>
+        <customField id="customfield_10012" name="Ожидаемый результат" type="textarea">
+          <description>Ожидаемый результат тест-кейса</description>
+        </customField>
+        <customField id="customfield_10013" name="Фактический результат" type="textarea">
+          <description>Фактический результат выполнения теста</description>
+        </customField>
+        <customField id="customfield_10014" name="Шаги выполнения" type="textarea">
+          <description>Шаги выполнения тест-кейса</description>
+        </customField>
+        <customField id="customfield_10015" name="Окружение" type="textarea">
+          <description>Окружение для воспроизведения дефекта</description>
+        </customField>
+      </customFields>
+
+      <!-- ============================================ -->
+      <!-- ISSUE TYPES (Типы задач) -->
+      <!-- ============================================ -->
+      <issueTypes>
+        <issueType id="10001" name="Бизнес-требование" description="Бизнес-требования: цели, задачи продукта" iconUrl="/images/icons/business.png"/>
+        <issueType id="10002" name="Требование пользователя" description="User Stories, Use Cases" iconUrl="/images/icons/user.png"/>
+        <issueType id="10003" name="Функциональное требование" description="Функциональные требования к системе" iconUrl="/images/icons/function.png"/>
+        <issueType id="10004" name="Нефункциональное требование" description="Атрибуты качества" iconUrl="/images/icons/nonfunctional.png"/>
+        <issueType id="10005" name="Требование к интерфейсу" description="Требования к UI/UX" iconUrl="/images/icons/interface.png"/>
+        <issueType id="10006" name="Тест-кейс" description="Тестовый сценарий" iconUrl="/images/icons/test.png"/>
+        <issueType id="10007" name="Дефект" description="Ошибка в системе" iconUrl="/images/icons/bug.png"/>
+      </issueTypes>
+
+      <!-- ============================================ -->
+      <!-- STATUSES (Статусы) -->
+      <!-- ============================================ -->
+      <statuses>
+        <status id="1" name="Новое" description="Требование только создано"/>
+        <status id="2" name="На анализе" description="Требование изучается аналитиком"/>
+        <status id="3" name="В разработке" description="Требование передано разработчикам"/>
+        <status id="4" name="На тестировании" description="Идет тестирование"/>
+        <status id="5" name="Включено в патч" description="Включено в релиз/спринт"/>
+        <status id="6" name="Отклонено" description="Не будет реализовано"/>
+        <status id="7" name="Отложено" description="Отложено на будущее"/>
+        <status id="8" name="Завершено" description="Полностью реализовано"/>
+        <status id="9" name="Открыт" description="Дефект открыт"/>
+        <status id="10" name="В работе" description="Дефект в работе"/>
+        <status id="11" name="Исправлен" description="Дефект исправлен"/>
+        <status id="12" name="Закрыт" description="Дефект закрыт"/>
+      </statuses>
+
+      <!-- ============================================ -->
+      <!-- PRIORITIES (Приоритеты) -->
+      <!-- ============================================ -->
+      <priorities>
+        <priority id="1" name="Critical" description="Критический приоритет"/>
+        <priority id="2" name="High" description="Высокий приоритет"/>
+        <priority id="3" name="Medium" description="Средний приоритет"/>
+        <priority id="4" name="Low" description="Низкий приоритет"/>
+      </priorities>
+
+      <!-- ============================================ -->
+      <!-- EXERCISE 00: БИЗНЕС-ТРЕБОВАНИЯ (BIZ) -->
+      <!-- ============================================ -->
+      <item>
+        <title>[BIZ000001] Повышение посещаемости клиентов</title>
+        <link>https://weeek.net/task/BSA13-1</link>
+        <project id="BSA13">BSA13 - Управление требованиями</project>
+        <type id="10001">Бизнес-требование</type>
+        <status id="1">Новое</status>
+        <priority id="2">High</priority>
+        <assignee>Аналитик</assignee>
+        <reporter>Аналитик</reporter>
+        <created>Thu, 20 Mar 2026 10:00:00 +0300</created>
+        <updated>Thu, 20 Mar 2026 10:00:00 +0300</updated>
+        <description><![CDATA[
+<h2>Описание</h2>
+<p>Снизить количество случаев, когда клиенты забывают о времени записи на услугу</p>
+
+<h2>Цель</h2>
+<p>Увеличить посещаемость на 20% за счет автоматических напоминаний</p>
+
+<h2>Метрика успеха</h2>
+<p>Процент "no-shows" (неявок) до и после внедрения</p>
+
+<h2>Срок</h2>
+<p>3 месяца после запуска</p>
+
+<h2>Источник</h2>
+<p>Заказчик (руководство сети барбершопов)</p>
+        ]]></description>
+        <customFields>
+          <customField id="customfield_10001" name="ID требования">
+            <value>BIZ000001</value>
+          </customField>
+          <customField id="customfield_10002" name="Тип требования">
+            <value>BIZ</value>
+          </customField>
+          <customField id="customfield_10005" name="Метод проверки">
+            <value>Сравнение процента no-shows до и после внедрения системы напоминаний</value>
+          </customField>
+        </customFields>
+        <labels>
+          <label>business-requirement</label>
+          <label>high-priority</label>
+          <label>barbershop</label>
+        </labels>
+      </item>
+
+      <!-- ============================================ -->
+      <!-- EXERCISE 01: USER STORIES (USR) -->
+      <!-- ============================================ -->
+      
+      <!-- USR000001 -->
+      <item>
+        <title>[USR000001] Информирование менеджером клиентов о записи</title>
+        <link>https://weeek.net/task/BSA13-2</link>
+        <project id="BSA13">BSA13 - Управление требованиями</project>
+        <type id="10002">Требование пользователя</type>
+        <status id="1">Новое</status>
+        <priority id="2">High</priority>
+        <assignee>Аналитик</assignee>
+        <reporter>Аналитик</reporter>
+        <created>Thu, 20 Mar 2026 10:05:00 +0300</created>
+        <updated>Thu, 20 Mar 2026 10:05:00 +0300</updated>
+        <description><![CDATA[
+<h2>User Story</h2>
+<p><strong>Как:</strong> менеджер барбершопа</p>
+<p><strong>Я хочу:</strong> настраивать расписание автоматических напоминаний клиентам</p>
+<p><strong>Чтобы:</strong> клиенты не забывали о своей записи и посещаемость была выше</p>
+
+<h2>Контекст</h2>
+<p>Выделенное предложение из задачи: "Система должна обеспечивать автоматическую отправку напоминаний клиентам через выбранный клиентом канал связи (Telegram, WhatsApp, VK, СМС) по настроенному менеджером расписанию."</p>
+        ]]></description>
+        <customFields>
+          <customField id="customfield_10001" name="ID требования">
+            <value>USR000001</value>
+          </customField>
+          <customField id="customfield_10002" name="Тип требования">
+            <value>USR</value>
+          </customField>
+          <customField id="customfield_10003" name="Источник">
+            <value>BIZ000001</value>
+          </customField>
+          <customField id="customfield_10004" name="Связи">
+            <value>USR000002, FNC000001</value>
+          </customField>
+          <customField id="customfield_10006" name="Критерии приемки">
+            <value>1. Менеджер может задать время отправки напоминания (за X часов/дней до записи)
+2. Менеджер может выбрать каналы связи для отправки
+3. Менеджер может просмотреть статус отправленных напоминаний</value>
+          </customField>
+        </customFields>
+        <labels>
+          <label>user-story</label>
+          <label>manager</label>
+          <label>high-priority</label>
+        </labels>
+      </item>
+
+      <!-- USR000002 -->
+      <item>
+        <title>[USR000002] Получение клиентом напоминания о записи</title>
+        <link>https://weeek.net/task/BSA13-3</link>
+        <project id="BSA13">BSA13 - Управление требованиями</project>
+        <type id="10002">Требование пользователя</type>
+        <status id="1">Новое</status>
+        <priority id="2">High</priority>
+        <assignee>Аналитик</assignee>
+        <reporter>Аналитик</reporter>
+        <created>Thu, 20 Mar 2026 10:10:00 +0300</created>
+        <updated>Thu, 20 Mar 2026 10:10:00 +0300</updated>
+        <description><![CDATA[
+<h2>User Story</h2>
+<p><strong>Как:</strong> клиент барбершопа</p>
+<p><strong>Я хочу:</strong> получать напоминание о предстоящей записи</p>
+<p><strong>Чтобы:</strong> не забыть о визите и иметь возможность подготовиться</p>
+
+<h2>Критерии приемки</h2>
+<ul>
+<li>Клиент получает напоминание в выбранное время</li>
+<li>Сообщение содержит дату, время, услугу и имя мастера</li>
+<li>Клиент может подтвердить или отменить запись из напоминания</li>
+</ul>
+        ]]></description>
+        <customFields>
+          <customField id="customfield_10001" name="ID требования">
+            <value>USR000002</value>
+          </customField>
+          <customField id="customfield_10002" name="Тип требования">
+            <value>USR</value>
+          </customField>
+          <customField id="customfield_10003" name="Источник">
+            <value>BIZ000001</value>
+          </customField>
+          <customField id="customfield_10004" name="Связи">
+            <value>USR000001, FNC000002</value>
+          </customField>
+        </customFields>
+        <labels>
+          <label>user-story</label>
+          <label>client</label>
+          <label>high-priority</label>
+        </labels>
+      </item>
+
+      <!-- USR000003 -->
+      <item>
+        <title>[USR000003] Взаимодействие по каналам связи</title>
+        <link>https://weeek.net/task/BSA13-4</link>
+        <project id="BSA13">BSA13 - Управление требованиями</project>
+        <type id="10002">Требование пользователя</type>
+        <status id="1">Новое</status>
+        <priority id="3">Medium</priority>
+        <assignee>Аналитик</assignee>
+        <reporter>Аналитик</reporter>
+        <created>Thu, 20 Mar 2026 10:15:00 +0300</created>
+        <updated>Thu, 20 Mar 2026 10:15:00 +0300</updated>
+        <description><![CDATA[
+<h2>User Story</h2>
+<p><strong>Как:</strong> клиент барбершопа</p>
+<p><strong>Я хочу:</strong> выбирать удобный канал связи для получения напоминаний</p>
+<p><strong>Чтобы:</strong> получать уведомления там, где я чаще всего бываю</p>
+
+<h2>Критерии приемки</h2>
+<ul>
+<li>Клиент может выбрать канал: Telegram, WhatsApp, VK, SMS</li>
+<li>Клиент может указать свой контакт (номер телефона/ID)</li>
+<li>Система проверяет валидность контакта</li>
+</ul>
+        ]]></description>
+        <customFields>
+          <customField id="customfield_10001" name="ID требования">
+            <value>USR000003</value>
+          </customField>
+          <customField id="customfield_10002" name="Тип требования">
+            <value>USR</value>
+          </customField>
+          <customField id="customfield_10003" name="Источник">
+            <value>USR000002</value>
+          </customField>
+          <customField id="customfield_10004" name="Связи">
+            <value>FNC000003</value>
+          </customField>
+        </customFields>
+        <labels>
+          <label>user-story</label>
+          <label>communication</label>
+          <label>medium-priority</label>
+        </labels>
+      </item>
+
+      <!-- USR000004 -->
+      <item>
+        <title>[USR000004] Настройка расписания информирования</title>
+        <link>https://weeek.net/task/BSA13-5</link>
+        <project id="BSA13">BSA13 - Управление требованиями</project>
+        <type id="10002">Требование пользователя</type>
+        <status id="1">Новое</status>
+        <priority id="3">Medium</priority>
+        <assignee>Аналитик</assignee>
+        <reporter>Аналитик</reporter>
+        <created>Thu, 20 Mar 2026 10:20:00 +0300</created>
+        <updated>Thu, 20 Mar 2026 10:20:00 +0300</updated>
+        <description><![CDATA[
+<h2>User Story</h2>
+<p><strong>Как:</strong> менеджер барбершопа</p>
+<p><strong>Я хочу:</strong> гибко настраивать время отправки напоминаний</p>
+<p><strong>Чтобы:</strong> адаптировать под разные услуги и предпочтения клиентов</p>
+
+<h2>Критерии приемки</h2>
+<ul>
+<li>Можно задать время до записи (1 час, 3 часа, 1 день, 3 дня)</li>
+<li>Можно настроить разное время для разных услуг</li>
+<li>Можно настроить повторные напоминания</li>
+</ul>
+        ]]></description>
+        <customFields>
+          <customField id="customfield_10001" name="ID требования">
+            <value>USR000004</value>
+          </customField>
+          <customField id="customfield_10002" name="Тип требования">
+            <value>USR</value>
+          </customField>
+          <customField id="customfield_10003" name="Источник">
+            <value>USR000001</value>
+          </customField>
+          <customField id="customfield_10004" name="Связи">
+            <value>FNC000001</value>
+          </customField>
+        </customFields>
+        <labels>
+          <label>user-story</label>
+          <label>schedule</label>
+          <label>medium-priority</label>
+        </labels>
+      </item>
+
+      <!-- ============================================ -->
+      <!-- EXERCISE 01: ФУНКЦИОНАЛЬНЫЕ ТРЕБОВАНИЯ (FNC) -->
+      <!-- ============================================ -->
+
+      <!-- FNC000001 -->
+      <item>
+        <title>[FNC000001] Настройка расписания напоминаний</title>
+        <link>https://weeek.net/task/BSA13-6</link>
+        <project id="BSA13">BSA13 - Управление требованиями</project>
+        <type id="10003">Функциональное требование</type>
+        <status id="1">Новое</status>
+        <priority id="2">High</priority>
+        <assignee>Аналитик</assignee>
+        <reporter>Аналитик</reporter>
+        <created>Thu, 20 Mar 2026 10:25:00 +0300</created>
+        <updated>Thu, 20 Mar 2026 10:25:00 +0300</updated>
+        <description><![CDATA[
+<h2>Описание</h2>
+<p>Система должна позволять менеджеру настраивать время и условия отправки автоматических напоминаний</p>
+
+<h2>Функциональность</h2>
+<h3>1. Создание правила напоминания:</h3>
+<ul>
+<li>Выбор услуги или "все услуги"</li>
+<li>Указание времени до записи (в часах/днях)</li>
+<li>Выбор каналов связи</li>
+<li>Включение/отключение правила</li>
+</ul>
+
+<h3>2. Редактирование правила</h3>
+<h3>3. Удаление правила</h3>
+<h3>4. Просмотр списка активных правил</h3>
+
+<h2>Связанный интерфейс</h2>
+<p>INT000001 - Интерфейс настройки расписания</p>
+        ]]></description>
+        <customFields>
+          <customField id="customfield_10001" name="ID требования">
+            <value>FNC000001</value>
+          </customField>
+          <customField id="customfield_10002" name="Тип требования">
+            <value>FNC</value>
+          </customField>
+          <customField id="customfield_10003" name="Источник">
+            <value>USR000001, USR000004</value>
+          </customField>
+          <customField id="customfield_10004" name="Связи">
+            <value>FNC000002, FNC000003, INT000001</value>
+          </customField>
+        </customFields>
+        <labels>
+          <label>functional</label>
+          <label>schedule</label>
+          <label>high-priority</label>
+        </labels>
+      </item>
+
+      <!-- FNC000002 -->
+      <item>
+        <title>[FNC000002] Автоматическая отправка напоминаний</title>
+        <link>https://weeek.net/task/BSA13-7</link>
+        <project id="BSA13">BSA13 - Управление требованиями</project>
+        <type id="10003">Функциональное требование</type>
+        <status id="1">Новое</status>
+        <priority id="2">High</priority>
+        <assignee>Аналитик</assignee>
+        <reporter>Аналитик</reporter>
+        <created>Thu, 20 Mar 2026 10:30:00 +0300</created>
+        <updated>Thu, 20 Mar 2026 10:30:00 +0300</updated>
+        <description><![CDATA[
+<h2>Описание</h2>
+<p>Система должна автоматически отправлять напоминания клиентам по настроенному расписанию через выбранные каналы</p>
+
+<h2>Функциональность</h2>
+<ol>
+<li>Проверка расписания каждые 15 минут</li>
+<li>Формирование списка клиентов для напоминания</li>
+<li>Формирование текста сообщения (дата, время, услуга, мастер)</li>
+<li>Отправка через выбранный канал связи</li>
+<li>Логирование отправки (успех/ошибка)</li>
+<li>Обработка ответов клиентов (подтверждение/отмена)</li>
+</ol>
+        ]]></description>
+        <customFields>
+          <customField id="customfield_10001" name="ID требования">
+            <value>FNC000002</value>
+          </customField>
+          <customField id="customfield_10002" name="Тип требования">
+            <value>FNC</value>
+          </customField>
+          <customField id="customfield_10003" name="Источник">
+            <value>USR000002</value>
+          </customField>
+          <customField id="customfield_10004" name="Связи">
+            <value>FNC000001, FNC000003, INT000002</value>
+          </customField>
+        </customFields>
+        <labels>
+          <label>functional</label>
+          <label>automation</label>
+          <label>high-priority</label>
+        </labels>
+      </item>
+
+      <!-- FNC000003 -->
+      <item>
+        <title>[FNC000003] Управление каналами связи</title>
+        <link>https://weeek.net/task/BSA13-8</link>
+        <project id="BSA13">BSA13 - Управление требованиями</project>
+        <type id="10003">Функциональное требование</type>
+        <status id="1">Новое</status>
+        <priority id="3">Medium</priority>
+        <assignee>Аналитик</assignee>
+        <reporter>Аналитик</reporter>
+        <created>Thu, 20 Mar 2026 10:35:00 +0300</created>
+        <updated>Thu, 20 Mar 2026 10:35:00 +0300</updated>
+        <description><![CDATA[
+<h2>Описание</h2>
+<p>Система должна хранить и управлять предпочтениями клиентов по каналам связи</p>
+
+<h2>Функциональность</h2>
+<ol>
+<li>Сохранение канала связи в профиле клиента</li>
+<li>Валидация контактных данных</li>
+<li>Проверка доступности канала</li>
+<li>Fallback (если один канал недоступен - пробовать другой)</li>
+</ol>
+        ]]></description>
+        <customFields>
+          <customField id="customfield_10001" name="ID требования">
+            <value>FNC000003</value>
+          </customField>
+          <customField id="customfield_10002" name="Тип требования">
+            <value>FNC</value>
+          </customField>
+          <customField id="customfield_10003" name="Источник">
+            <value>USR000003</value>
+          </customField>
+          <customField id="customfield_10004" name="Связи">
+            <value>FNC000002</value>
+          </customField>
+        </customFields>
+        <labels>
+          <label>functional</label>
+          <label>communication</label>
+          <label>medium-priority</label>
+        </labels>
+      </item>
+
+      <!-- ============================================ -->
+      <!-- EXERCISE 01: ТРЕБОВАНИЯ К ИНТЕРФЕЙСАМ (INT) -->
+      <!-- ============================================ -->
+
+      <!-- INT000001 -->
+      <item>
+        <title>[INT000001] Интерфейс настройки расписания</title>
+        <link>https://weeek.net/task/BSA13-9</link>
+        <project id="BSA13">BSA13 - Управление требованиями</project>
+        <type id="10005">Требование к интерфейсу</type>
+        <status id="1">Новое</status>
+        <priority id="2">High</priority>
+        <assignee>Аналитик</assignee>
+        <reporter>Аналитик</reporter>
+        <created>Thu, 20 Mar 2026 10:40:00 +0300</created>
+        <updated>Thu, 20 Mar 2026 10:40:00 +0300</updated>
+        <description><![CDATA[
+<h2>Описание</h2>
+<p>Интерфейс для менеджера по настройке правил отправки напоминаний</p>
+
+<h2>Элементы интерфейса</h2>
+<h3>Таблица с правилами:</h3>
+<ul>
+<li>Колонки: услуга, время до записи, каналы, статус</li>
+</ul>
+
+<h3>Кнопка "Добавить правило"</h3>
+
+<h3>Модальное окно создания/редактирования:</h3>
+<ul>
+<li>Выпадающий список "Услуга"</li>
+<li>Поле "Время до записи" (число) + единица (час/день)</li>
+<li>Чекбоксы каналов: Telegram, WhatsApp, VK, SMS</li>
+<li>Переключатель "Активно"</li>
+<li>Кнопки "Сохранить", "Отмена"</li>
+</ul>
+        ]]></description>
+        <customFields>
+          <customField id="customfield_10001" name="ID требования">
+            <value>INT000001</value>
+          </customField>
+          <customField id="customfield_10002" name="Тип требования">
+            <value>INT</value>
+          </customField>
+          <customField id="customfield_10003" name="Источник">
+            <value>FNC000001</value>
+          </customField>
+          <customField id="customfield_10004" name="Связи">
+            <value>INT000002</value>
+          </customField>
+        </customFields>
+        <labels>
+          <label>interface</label>
+          <label>ui</label>
+          <label>high-priority</label>
+        </labels>
+      </item>
+
+      <!-- INT000002 -->
+      <item>
+        <title>[INT000002] Интерфейс просмотра статуса отправки</title>
+        <link>https://weeek.net/task/BSA13-10</link>
+        <project id="BSA13">BSA13 - Управление требованиями</project>
+        <type id="10005">Требование к интерфейсу</type>
+        <status id="1">Новое</status>
+        <priority id="3">Medium</priority>
+        <assignee>Аналитик</assignee>
+        <reporter>Аналитик</reporter>
+        <created>Thu, 20 Mar 2026 10:45:00 +0300</created>
+        <updated>Thu, 20 Mar 2026 10:45:00 +0300</updated>
+        <description><![CDATA[
+<h2>Описание</h2>
+<p>Интерфейс для просмотра истории и статуса отправленных напоминаний</p>
+
+<h2>Элементы интерфейса</h2>
+<h3>Таблица с колонками:</h3>
+<ul>
+<li>Клиент</li>
+<li>Дата записи</li>
+<li>Канал</li>
+<li>Статус</li>
+<li>Время отправки</li>
+</ul>
+
+<h3>Фильтры:</h3>
+<ul>
+<li>По дате</li>
+<li>По статусу</li>
+<li>По каналу</li>
+</ul>
+
+<h3>Индикаторы статуса:</h3>
+<ul>
+<li>Отправлено</li>
+<li>Доставлено</li>
+<li>Ошибка</li>
+</ul>
+        ]]></description>
+        <customFields>
+          <customField id="customfield_10001" name="ID требования">
+            <value>INT000002</value>
+          </customField>
+          <customField id="customfield_10002" name="Тип требования">
+            <value>INT</value>
+          </customField>
+          <customField id="customfield_10003" name="Источник">
+            <value>FNC000002</value>
+          </customField>
+          <customField id="customfield_10004" name="Связи">
+            <value>INT000001</value>
+          </customField>
+        </customFields>
+        <labels>
+          <label>interface</label>
+          <label>ui</label>
+          <label>medium-priority</label>
+        </labels>
+      </item>
+
+      <!-- ============================================ -->
+      <!-- EXERCISE 01: НЕФУНКЦИОНАЛЬНЫЕ ТРЕБОВАНИЯ (NFQ) -->
+      <!-- ============================================ -->
+
+      <!-- NFQ000001 -->
+      <item>
+        <title>[NFQ000001] Производительность отправки</title>
+        <link>https://weeek.net/task/BSA13-11</link>
+        <project id="BSA13">BSA13 - Управление требованиями</project>
+        <type id="10004">Нефункциональное требование</type>
+        <status id="1">Новое</status>
+        <priority id="2">High</priority>
+        <assignee>Аналитик</assignee>
+        <reporter>Аналитик</reporter>
+        <created>Thu, 20 Mar 2026 10:50:00 +0300</created>
+        <updated>Thu, 20 Mar 2026 10:50:00 +0300</updated>
+        <description><![CDATA[
+<h2>Описание</h2>
+<p>Система должна обрабатывать отправку напоминаний с заданной производительностью</p>
+
+<h2>Требования</h2>
+<ul>
+<li>Время от момента срабатывания триггера до начала отправки: не более 1 минуты</li>
+<li>Система должна обрабатывать минимум 1000 напоминаний в час</li>
+<li>Время формирования сообщения: не более 500 мс</li>
+</ul>
+        ]]></description>
+        <customFields>
+          <customField id="customfield_10001" name="ID требования">
+            <value>NFQ000001</value>
+          </customField>
+          <customField id="customfield_10002" name="Тип требования">
+            <value>NFQ</value>
+          </customField>
+          <customField id="customfield_10003" name="Источник">
+            <value>FNC000002</value>
+          </customField>
+        </customFields>
+        <labels>
+          <label>non-functional</label>
+          <label>performance</label>
+          <label>high-priority</label>
+        </labels>
+      </item>
+
+      <!-- NFQ000002 -->
+      <item>
+        <title>[NFQ000002] Доступность каналов</title>
+        <link>https://weeek.net/task/BSA13-12</link>
+        <project id="BSA13">BSA13 - Управление требованиями</project>
+        <type id="10004">Нефункциональное требование</type>
+        <status id="1">Новое</status>
+        <priority id="3">Medium</priority>
+        <assignee>Аналитик</assignee>
+        <reporter>Аналитик</reporter>
+        <created>Thu, 20 Mar 2026 10:55:00 +0300</created>
+        <updated>Thu, 20 Mar 2026 10:55:00 +0300</updated>
+        <description><![CDATA[
+<h2>Описание</h2>
+<p>Система должна обеспечивать надежную доставку через все каналы</p>
+
+<h2>Требования</h2>
+<ul>
+<li>Доступность API каналов: 99.5%</li>
+<li>При недоступности основного канала - fallback в течение 5 минут</li>
+<li>Хранение истории доставки: минимум 1 год</li>
+</ul>
+        ]]></description>
+        <customFields>
+          <customField id="customfield_10001" name="ID требования">
+            <value>NFQ000002</value>
+          </customField>
+          <customField id="customfield_10002" name="Тип требования">
+            <value>NFQ</value>
+          </customField>
+          <customField id="customfield_10003" name="Источник">
+            <value>FNC000003</value>
+          </customField>
+        </customFields>
+        <labels>
+          <label>non-functional</label>
+          <label>availability</label>
+          <label>medium-priority</label>
+        </labels>
+      </item>
+
+      <!-- ============================================ -->
+      <!-- EXERCISE 02: ПОЗИТИВНЫЕ ТЕСТ-КЕЙСЫ -->
+      <!-- ============================================ -->
+
+      <!-- TC-POS-001 -->
+      <item>
+        <title>[TC-POS-001] Успешная настройка расписания напоминаний</title>
+        <link>https://weeek.net/task/BSA13-13</link>
+        <project id="BSA13">BSA13 - Управление требованиями</project>
+        <type id="10006">Тест-кейс</type>
+        <status id="1">Новое</status>
+        <priority id="2">High</priority>
+        <assignee>Тестировщик</assignee>
+        <reporter>Аналитик</reporter>
+        <created>Thu, 20 Mar 2026 11:00:00 +0300</created>
+        <updated>Thu, 20 Mar 2026 11:00:00 +0300</updated>
+        <description><![CDATA[
+<h2>Описание</h2>
+<p>Позитивный тест-кейс для проверки успешного создания правила напоминания</p>
+
+<h2>Связанные требования</h2>
+<p>FNC000001, INT000001</p>
+        ]]></description>
+        <customFields>
+          <customField id="customfield_10001" name="ID требования">
+            <value>TC-POS-001</value>
+          </customField>
+          <customField id="customfield_10002" name="Тип требования">
+            <value>TC</value>
+          </customField>
+          <customField id="customfield_10010" name="Предусловия">
+            <value>1. Менеджер авторизован в системе с ролью "Менеджер"
+2. Менеджер имеет доступ к разделу "Настройки напоминаний"
+3. В системе существует услуга "Стрижка мужская" (ID: SRV001)
+4. Каналы связи Telegram и WhatsApp настроены и доступны</value>
+          </customField>
+          <customField id="customfield_10009" name="Тестовые данные">
+            <value>Услуга: Стрижка мужская
+Время до записи: 24
+Единица времени: час
+Каналы связи: Telegram, WhatsApp
+Статус правила: Активно</value>
+          </customField>
+          <customField id="customfield_10014" name="Шаги выполнения">
+            <value>1. Открыть раздел "Настройки" → "Напоминания"
+2. Нажать кнопку "Добавить правило"
+3. В поле "Услуга" выбрать "Стрижка мужская"
+4. В поле "Время до записи" ввести "24"
+5. В выпадающем списке единицы выбрать "час"
+6. Установить чекбокс "Telegram"
+7. Установить чекбокс "WhatsApp"
+8. Переключатель "Активно" установить в ON
+9. Нажать кнопку "Сохранить"
+10. Проверить отображение в таблице</value>
+          </customField>
+          <customField id="customfield_10012" name="Ожидаемый результат">
+            <value>1. Правило напоминания успешно создано
+2. Правило отображается в таблице с корректными параметрами
+3. Система готова к автоматической отправке напоминаний
+4. Правило активно и будет применяться к новым записям</value>
+          </customField>
+          <customField id="customfield_10011" name="Постусловия">
+            <value>1. Удалить созданное правило
+2. Выйти из системы (опционально)</value>
+          </customField>
+        </customFields>
+        <labels>
+          <label>test-case</label>
+          <label>positive</label>
+          <label>high-priority</label>
+          <label>UC02</label>
+        </labels>
+      </item>
+
+      <!-- TC-POS-002 -->
+      <item>
+        <title>[TC-POS-002] Редактирование времени отправки напоминания</title>
+        <link>https://weeek.net/task/BSA13-14</link>
+        <project id="BSA13">BSA13 - Управление требованиями</project>
+        <type id="10006">Тест-кейс</type>
+        <status id="1">Новое</status>
+        <priority id="3">Medium</priority>
+        <assignee>Тестировщик</assignee>
+        <reporter>Аналитик</reporter>
+        <created>Thu, 20 Mar 2026 11:05:00 +0300</created>
+        <updated>Thu, 20 Mar 2026 11:05:00 +0300</updated>
+        <description><![CDATA[
+<h2>Описание</h2>
+<p>Позитивный тест-кейс для проверки редактирования существующего правила</p>
+        ]]></description>
+        <customFields>
+          <customField id="customfield_10001" name="ID требования">
+            <value>TC-POS-002</value>
+          </customField>
+          <customField id="customfield_10002" name="Тип требования">
+            <value>TC</value>
+          </customField>
+          <customField id="customfield_10010" name="Предусловия">
+            <value>Существует правило с временем 24 часа</value>
+          </customField>
+          <customField id="customfield_10014" name="Шаги выполнения">
+            <value>1. Открыть таблицу правил
+2. Нажать "Редактировать"
+3. Изменить время на 3 часа
+4. Сохранить</value>
+          </customField>
+          <customField id="customfield_10012" name="Ожидаемый результат">
+            <value>Правило обновлено, в таблице отображается новое время</value>
+          </customField>
+        </customFields>
+        <labels>
+          <label>test-case</label>
+          <label>positive</label>
+          <label>medium-priority</label>
+        </labels>
+      </item>
+
+      <!-- TC-POS-003 -->
+      <item>
+        <title>[TC-POS-003] Создание универсального правила для всех услуг</title>
+        <link>https://weeek.net/task/BSA13-15</link>
+        <project id="BSA13">BSA13 - Управление требованиями</project>
+        <type id="10006">Тест-кейс</type>
+        <status id="1">Новое</status>
+        <priority id="3">Medium</priority>
+        <assignee>Тестировщик</assignee>
+        <reporter>Аналитик</reporter>
+        <created>Thu, 20 Mar 2026 11:10:00 +0300</created>
+        <updated>Thu, 20 Mar 2026 11:10:00 +0300</updated>
+        <description><![CDATA[
+<h2>Описание</h2>
+<p>Позитивный тест-кейс для создания правила, применяемого ко всем услугам</p>
+        ]]></description>
+        <customFields>
+          <customField id="customfield_10001" name="ID требования">
+            <value>TC-POS-003</value>
+          </customField>
+          <customField id="customfield_10002" name="Тип требования">
+            <value>TC</value>
+          </customField>
+          <customField id="customfield_10014" name="Шаги выполнения">
+            <value>1. Открыть создание правила
+2. Выбрать "Все услуги"
+3. Указать время 12 часов
+4. Выбрать SMS
+5. Сохранить</value>
+          </customField>
+          <customField id="customfield_10012" name="Ожидаемый результат">
+            <value>Правило создано, применяется ко всем услугам</value>
+          </customField>
+        </customFields>
+        <labels>
+          <label>test-case</label>
+          <label>positive</label>
+          <label>medium-priority</label>
+        </labels>
+      </item>
+
+      <!-- ============================================ -->
+      <!-- EXERCISE 03: НЕГАТИВНЫЕ ТЕСТ-КЕЙСЫ -->
+      <!-- ============================================ -->
+
+      <!-- TC-NEG-001 -->
+      <item>
+        <title>[TC-NEG-001] Создание правила с пустым временем напоминания</title>
+        <link>https://weeek.net/task/BSA13-16</link>
+        <project id="BSA13">BSA13 - Управление требованиями</project>
+        <type id="10006">Тест-кейс</type>
+        <status id="1">Новое</status>
+        <priority id="2">High</priority>
+        <assignee>Тестировщик</assignee>
+        <reporter>Аналитик</reporter>
+        <created>Thu, 20 Mar 2026 11:15:00 +0300</created>
+        <updated>Thu, 20 Mar 2026 11:15:00 +0300</updated>
+        <description><![CDATA[
+<h2>Описание</h2>
+<p>Негативный тест-кейс для проверки валидации обязательного поля "Время"</p>
+
+<h2>Связанные требования</h2>
+<p>FNC000001, INT000001</p>
+        ]]></description>
+        <customFields>
+          <customField id="customfield_10001" name="ID требования">
+            <value>TC-NEG-001</value>
+          </customField>
+          <customField id="customfield_10002" name="Тип требования">
+            <value>TC</value>
+          </customField>
+          <customField id="customfield_10010" name="Предусловия">
+            <value>1. Менеджер авторизован в системе с ролью "Менеджер"
+2. Менеджер имеет доступ к разделу "Настройки напоминаний"
+3. В системе существует услуга "Стрижка мужская"</value>
+          </customField>
+          <customField id="customfield_10009" name="Тестовые данные">
+            <value>Услуга: Стрижка мужская
+Время до записи: (пустое поле)
+Единица времени: час
+Каналы связи: Telegram
+Статус правила: Активно</value>
+          </customField>
+          <customField id="customfield_10014" name="Шаги выполнения">
+            <value>1. Открыть раздел "Настройки" → "Напоминания"
+2. Нажать кнопку "Добавить правило"
+3. В поле "Услуга" выбрать "Стрижка мужская"
+4. Оставить поле "Время до записи" пустым
+5. В выпадающем списке единицы выбрать "час"
+6. Установить чекбокс "Telegram"
+7. Переключатель "Активно" установить в ON
+8. Нажать кнопку "Сохранить"
+9. Проверить состояние поля</value>
+          </customField>
+          <customField id="customfield_10012" name="Ожидаемый результат">
+            <value>1. Система НЕ создает правило с пустым временем
+2. Отображается понятное сообщение об ошибке: "Поле 'Время до записи' обязательно для заполнения"
+3. Поле с ошибкой визуально выделено (подсвечено красным)
+4. Модальное окно остается открытым для исправления
+5. В таблице правил новая запись НЕ появляется</value>
+          </customField>
+          <customField id="customfield_10011" name="Постусловия">
+            <value>1. Закрыть модальное окно
+2. Убедиться, что в таблице не появилось новых записей
+3. Выйти из системы (опционально)</value>
+          </customField>
+        </customFields>
+        <labels>
+          <label>test-case</label>
+          <label>negative</label>
+          <label>validation</label>
+          <label>high-priority</label>
+        </labels>
+      </item>
+
+      <!-- TC-NEG-002 -->
+      <item>
+        <title>[TC-NEG-002] Создание правила без выбора канала связи</title>
+        <link>https://weeek.net/task/BSA13-17</link>
+        <project id="BSA13">BSA13 - Управление требованиями</project>
+        <type id="10006">Тест-кейс</type>
+        <status id="1">Новое</status>
+        <priority id="2">High</priority>
+        <assignee>Тестировщик</assignee>
+        <reporter>Аналитик</reporter>
+        <created>Thu, 20 Mar 2026 11:20:00 +0300</created>
+        <updated>Thu, 20 Mar 2026 11:20:00 +0300</updated>
+        <description><![CDATA[
+<h2>Описание</h2>
+<p>Негативный тест-кейс для проверки валидации выбора канала связи</p>
+        ]]></description>
+        <customFields>
+          <customField id="customfield_10001" name="ID требования">
+            <value>TC-NEG-002</value>
+          </customField>
+          <customField id="customfield_10002" name="Тип требования">
+            <value>TC</value>
+          </customField>
+          <customField id="customfield_10014" name="Шаги выполнения">
+            <value>1. Открыть создание правила
+2. Выбрать услугу
+3. Указать время
+4. НЕ выбирать каналы
+5. Нажать Сохранить</value>
+          </customField>
+          <customField id="customfield_10012" name="Ожидаемый результат">
+            <value>Ошибка: "Необходимо выбрать хотя бы один канал связи"</value>
+          </customField>
+        </customFields>
+        <labels>
+          <label>test-case</label>
+          <label>negative</label>
+          <label>validation</label>
+        </labels>
+      </item>
+
+      <!-- TC-NEG-003 -->
+      <item>
+        <title>[TC-NEG-003] Ввод отрицательного значения времени</title>
+        <link>https://weeek.net/task/BSA13-18</link>
+        <project id="BSA13">BSA13 - Управление требованиями</project>
+        <type id="10006">Тест-кейс</type>
+        <status id="1">Новое</status>
+        <priority id="3">Medium</priority>
+        <assignee>Тестировщик</assignee>
+        <reporter>Аналитик</reporter>
+        <created>Thu, 20 Mar 2026 11:25:00 +0300</created>
+        <updated>Thu, 20 Mar 2026 11:25:00 +0300</updated>
+        <description><![CDATA[
+<h2>Описание</h2>
+<p>Негативный тест-кейс для проверки валидации отрицательного времени</p>
+        ]]></description>
+        <customFields>
+          <customField id="customfield_10001" name="ID требования">
+            <value>TC-NEG-003</value>
+          </customField>
+          <customField id="customfield_10002" name="Тип требования">
+            <value>TC</value>
+          </customField>
+          <customField id="customfield_10014" name="Шаги выполнения">
+            <value>1. Открыть создание правила
+2. Ввести время "-5"
+3. Выбрать канал
+4. Нажать Сохранить</value>
+          </customField>
+          <customField id="customfield_10012" name="Ожидаемый результат">
+            <value>Ошибка: "Время должно быть положительным числом"</value>
+          </customField>
+        </customFields>
+        <labels>
+          <label>test-case</label>
+          <label>negative</label>
+          <label>validation</label>
+        </labels>
+      </item>
+
+      <!-- TC-NEG-004 -->
+      <item>
+        <title>[TC-NEG-004] Ввод времени превышающего максимальное</title>
+        <link>https://weeek.net/task/BSA13-19</link>
+        <project id="BSA13">BSA13 - Управление требованиями</project>
+        <type id="10006">Тест-кейс</type>
+        <status id="1">Новое</status>
+        <priority id="3">Medium</priority>
+        <assignee>Тестировщик</assignee>
+        <reporter>Аналитик</reporter>
+        <created>Thu, 20 Mar 2026 11:30:00 +0300</created>
+        <updated>Thu, 20 Mar 2026 11:30:00 +0300</updated>
+        <description><![CDATA[
+<h2>Описание</h2>
+<p>Негативный тест-кейс для проверки верхней границы времени</p>
+        ]]></description>
+        <customFields>
+          <customField id="customfield_10001" name="ID требования">
+            <value>TC-NEG-004</value>
+          </customField>
+          <customField id="customfield_10002" name="Тип требования">
+            <value>TC</value>
+          </customField>
+          <customField id="customfield_10014" name="Шаги выполнения">
+            <value>1. Открыть создание правила
+2. Ввести время "9999"
+3. Выбрать канал
+4. Нажать Сохранить</value>
+          </customField>
+          <customField id="customfield_10012" name="Ожидаемый результат">
+            <value>Ошибка: "Время не должно превышать 720 часов (30 дней)"</value>
+          </customField>
+        </customFields>
+        <labels>
+          <label>test-case</label>
+          <label>negative</label>
+          <label>validation</label>
+        </labels>
+      </item>
+
+      <!-- TC-NEG-005 -->
+      <item>
+        <title>[TC-NEG-005] Создание дублирующего правила</title>
+        <link>https://weeek.net/task/BSA13-20</link>
+        <project id="BSA13">BSA13 - Управление требованиями</project>
+        <type id="10006">Тест-кейс</type>
+        <status id="1">Новое</status>
+        <priority id="3">Medium</priority>
+        <assignee>Тестировщик</assignee>
+        <reporter>Аналитик</reporter>
+        <created>Thu, 20 Mar 2026 11:35:00 +0300</created>
+        <updated>Thu, 20 Mar 2026 11:35:00 +0300</updated>
+        <description><![CDATA[
+<h2>Описание</h2>
+<p>Негативный тест-кейс для проверки уникальности правил</p>
+        ]]></description>
+        <customFields>
+          <customField id="customfield_10001" name="ID требования">
+            <value>TC-NEG-005</value>
+          </customField>
+          <customField id="customfield_10002" name="Тип требования">
+            <value>TC</value>
+          </customField>
+          <customField id="customfield_10010" name="Предусловия">
+            <value>Существует правило: Стрижка мужская, 24 часа, Telegram</value>
+          </customField>
+          <customField id="customfield_10014" name="Шаги выполнения">
+            <value>1. Открыть создание правила
+2. Выбрать ту же услугу
+3. Указать то же время
+4. Выбрать тот же канал
+5. Нажать Сохранить</value>
+          </customField>
+          <customField id="customfield_10012" name="Ожидаемый результат">
+            <value>Ошибка: "Правило с такими параметрами уже существует"</value>
+          </customField>
+        </customFields>
+        <labels>
+          <label>test-case</label>
+          <label>negative</label>
+          <label>validation</label>
+        </labels>
+      </item>
+
+      <!-- TC-NEG-006 -->
+      <item>
+        <title>[TC-NEG-006] Несанкционированный доступ к настройкам</title>
+        <link>https://weeek.net/task/BSA13-21</link>
+        <project id="BSA13">BSA13 - Управление требованиями</project>
+        <type id="10006">Тест-кейс</type>
+        <status id="1">Новое</status>
+        <priority id="2">High</priority>
+        <assignee>Тестировщик</assignee>
+        <reporter>Аналитик</reporter>
+        <created>Thu, 20 Mar 2026 11:40:00 +0300</created>
+        <updated>Thu, 20 Mar 2026 11:40:00 +0300</updated>
+        <description><![CDATA[
+<h2>Описание</h2>
+<p>Негативный тест-кейс для проверки прав доступа</p>
+        ]]></description>
+        <customFields>
+          <customField id="customfield_10001" name="ID требования">
+            <value>TC-NEG-006</value>
+          </customField>
+          <customField id="customfield_10002" name="Тип требования">
+            <value>TC</value>
+          </customField>
+          <customField id="customfield_10010" name="Предусловия">
+            <value>Пользователь авторизован как "Мастер" (не менеджер)</value>
+          </customField>
+          <customField id="customfield_10014" name="Шаги выполнения">
+            <value>1. Авторизоваться как мастер
+2. Попытаться открыть раздел "Настройки" → "Напоминания"</value>
+          </customField>
+          <customField id="customfield_10012" name="Ожидаемый результат">
+            <value>Доступ запрещен, отображается сообщение "Недостаточно прав" или раздел не отображается в меню</value>
+          </customField>
+        </customFields>
+        <labels>
+          <label>test-case</label>
+          <label>negative</label>
+          <label>security</label>
+          <label>high-priority</label>
+        </labels>
+      </item>
+
+      <!-- TC-NEG-007 -->
+      <item>
+        <title>[TC-NEG-007] Ввод букв в поле времени</title>
+        <link>https://weeek.net/task/BSA13-22</link>
+        <project id="BSA13">BSA13 - Управление требованиями</project>
+        <type id="10006">Тест-кейс</type>
+        <status id="1">Новое</status>
+        <priority id="4">Low</priority>
+        <assignee>Тестировщик</assignee>
+        <reporter>Аналитик</reporter>
+        <created>Thu, 20 Mar 2026 11:45:00 +0300</created>
+        <updated>Thu, 20 Mar 2026 11:45:00 +0300</updated>
+        <description><![CDATA[
+<h2>Описание</h2>
+<p>Негативный тест-кейс для проверки валидации типа данных</p>
+        ]]></description>
+        <customFields>
+          <customField id="customfield_10001" name="ID требования">
+            <value>TC-NEG-007</value>
+          </customField>
+          <customField id="customfield_10002" name="Тип требования">
+            <value>TC</value>
+          </customField>
+          <customField id="customfield_10014" name="Шаги выполнения">
+            <value>1. Открыть создание правила
+2. Ввести в поле время "abc"
+3. Нажать Сохранить</value>
+          </customField>
+          <customField id="customfield_10012" name="Ожидаемый результат">
+            <value>Поле не принимает буквы ИЛИ ошибка валидации</value>
+          </customField>
+        </customFields>
+        <labels>
+          <label>test-case</label>
+          <label>negative</label>
+          <label>validation</label>
+          <label>low-priority</label>
+        </labels>
+      </item>
+
+      <!-- ============================================ -->
+      <!-- EXERCISE 04: ДЕФЕКТЫ -->
+      <!-- ============================================ -->
+
+      <!-- DEF-001 -->
+      <item>
+        <title>[DEF-001] Некорректная привязка бронирования к клиенту</title>
+        <link>https://weeek.net/task/BSA13-23</link>
+        <project id="BSA13">BSA13 - Управление требованиями</project>
+        <type id="10007">Дефект</type>
+        <status id="9">Открыт</status>
+        <priority id="1">Critical</priority>
+        <assignee>Разработчик</assignee>
+        <reporter>Тестировщик</reporter>
+        <created>Thu, 20 Mar 2026 12:00:00 +0300</created>
+        <updated>Thu, 20 Mar 2026 12:00:00 +0300</updated>
+        <description><![CDATA[
+<h2>Краткое описание</h2>
+<p>Система отображает неверного клиента при просмотре забронированного слота</p>
+
+<h2>Обнаружен в</h2>
+<p>TC-POS-001, шаг 1-2</p>
+
+<h2>Предусловие</h2>
+<ol>
+<li>В системе есть записи клиентов: Иванов И.И. (ID: CLI001) и Петров П.П. (ID: CLI002)</li>
+<li>Клиент Иванов И.И. имеет активную запись на 25.03.2026 в 14:00</li>
+<li>Менеджер авторизован в системе</li>
+</ol>
+
+<h2>Шаги воспроизведения</h2>
+<ol>
+<li>Открыть расписание мастера на 25.03.2026</li>
+<li>Найти слот 14:00</li>
+<li>Открыть детали слота</li>
+<li>Проверить отображаемого клиента</li>
+</ol>
+
+<h2>Ожидаемый результат (ОР)</h2>
+<p>В деталях слота отображается: Клиент: Иванов И.И.</p>
+
+<h2>Фактический результат (ФР)</h2>
+<p>В деталях слота отображается: Клиент: Петров П.П. (неверный клиент)</p>
+
+<h2>Отличие от ОР</h2>
+<p>Отображается другой клиент, не имеющий записи на это время</p>
+
+<h2>Описание</h2>
+<p>При просмотре деталей забронированного слота система отображает неверного клиента. Это может привести к:</p>
+<ul>
+<li>Неправильному информированию клиентов</li>
+<li>Путанице у менеджеров</li>
+<li>Потере доверия клиентов</li>
+</ul>
+        ]]></description>
+        <customFields>
+          <customField id="customfield_10001" name="ID требования">
+            <value>DEF-001</value>
+          </customField>
+          <customField id="customfield_10002" name="Тип требования">
+            <value>DEF</value>
+          </customField>
+          <customField id="customfield_10015" name="Окружение">
+            <value>ОС: Windows 11
+Браузер: Google Chrome 122.0
+Разрешение: 1920x1080
+Версия системы: v2.3.1</value>
+          </customField>
+        </customFields>
+        <labels>
+          <label>bug</label>
+          <label>critical</label>
+          <label>booking</label>
+          <label>data-integrity</label>
+        </labels>
+      </item>
+
+      <!-- DEF-002 -->
+      <item>
+        <title>[DEF-002] Слот не исключается из списка свободных после бронирования</title>
+        <link>https://weeek.net/task/BSA13-24</link>
+        <project id="BSA13">BSA13 - Управление требованиями</project>
+        <type id="10007">Дефект</type>
+        <status id="9">Открыт</status>
+        <priority id="1">Critical</priority>
+        <assignee>Разработчик</assignee>
+        <reporter>Тестировщик</reporter>
+        <created>Thu, 20 Mar 2026 12:05:00 +0300</created>
+        <updated>Thu, 20 Mar 2026 12:05:00 +0300</updated>
+        <description><![CDATA[
+<h2>Краткое описание</h2>
+<p>Забронированный слот продолжает отображаться как свободный в расписании</p>
+
+<h2>Обнаружен в</h2>
+<p>TC-POS-001, шаги 1-5</p>
+
+<h2>Предусловие</h2>
+<ol>
+<li>Менеджер авторизован</li>
+<li>Существует свободный слот на 26.03.2026 в 15:00</li>
+<li>В системе есть клиент Сидоров С.С.</li>
+</ol>
+
+<h2>Шаги воспроизведения</h2>
+<ol>
+<li>Открыть страницу бронирования</li>
+<li>Выбрать услугу "Стрижка мужская"</li>
+<li>Выбрать мастера</li>
+<li>Выбрать дату 26.03.2026</li>
+<li>Выбрать время 15:00 из списка свободных</li>
+<li>Указать клиента: Сидоров С.С.</li>
+<li>Нажать "Забронировать"</li>
+<li>Дождаться подтверждения бронирования</li>
+<li>Открыть расписание того же мастера на ту же дату</li>
+</ol>
+
+<h2>Ожидаемый результат (ОР)</h2>
+<p>Слот 15:00 не отображается в списке свободных (или отмечен как занятый)</p>
+
+<h2>Фактический результат (ФР)</h2>
+<p>Слот 15:00 отображается в списке свободных и доступен для нового бронирования</p>
+
+<h2>Отличие от ОР</h2>
+<p>Слот не помечается как занятый после успешного бронирования</p>
+
+<h2>Описание</h2>
+<p>После успешного создания бронирования слот не исключается из списка доступных. Это критический дефект, позволяющий:</p>
+<ul>
+<li>Создавать множественные бронирования на один слот</li>
+<li>Переполнять расписание мастера</li>
+<li>Создавать конфликты в расписании</li>
+</ul>
+        ]]></description>
+        <customFields>
+          <customField id="customfield_10001" name="ID требования">
+            <value>DEF-002</value>
+          </customField>
+          <customField id="customfield_10002" name="Тип требования">
+            <value>DEF</value>
+          </customField>
+          <customField id="customfield_10015" name="Окружение">
+            <value>ОС: Windows 11
+Браузер: Mozilla Firefox 123.0
+Разрешение: 1920x1080
+Версия системы: v2.3.1</value>
+          </customField>
+        </customFields>
+        <labels>
+          <label>bug</label>
+          <label>critical</label>
+          <label>booking</label>
+          <label>scheduling</label>
+        </labels>
+      </item>
+
+    </project>
+  </channel>
+</rss>
